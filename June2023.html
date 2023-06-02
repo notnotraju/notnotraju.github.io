@@ -1,0 +1,468 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+    
+     <style type="text/css">
+　　 <!--
+　　 a:link { text-decoration: none;color: blue}
+　　 a:active { text-decoration:blink}
+　　 a:hover { text-decoration:underline;color: blue} 
+　　 a:visited { text-decoration: none;color: green}
+
+　　 -－> 
+　　 </style>
+
+<title>Minicourses on Geometry and Hodge theory</title>
+
+<!-- MathJax for latex -->
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- link to main stylesheet -->
+    <link rel="stylesheet" type="text/css" href="main.css">
+    
+    <style>
+	 
+p.a {
+    font-style: normal;
+}
+
+p.b {
+    font-style: italic;
+}
+
+p.c {
+    font-style: oblique;
+}
+</style>
+
+<style>
+  .visi1 { visibility:"visible" }
+  .visi2 { visibility:"hidden" }
+  .disp1 { display:"block" }
+  .disp2 { display:"none" }
+
+.div_show
+{
+display:block;
+margin-top:5px;
+margin-left:5px;
+margin-bottom:5px;
+margin-right:80px;
+padding:8px;
+background:#EFF5E0;
+border:solid 1px #c3c3c3;
+
+}
+.div_hide
+{
+display:none;
+}
+</style>
+
+<script language="javaScript">
+function showHideText1()
+{
+if (document.getElementById("div_text1").className == "div_hide")
+{
+document.getElementById("div_text1").className = "div_show";
+document.getElementById("my_text1").innerText = "[-]";
+}
+else
+{
+
+document.getElementById("div_text1").className = "div_hide";
+document.getElementById("my_text1").innerText = "[+]";
+}
+}
+</script>
+
+<script language="javaScript">
+function showHideText2()
+{
+if (document.getElementById("div_text2").className == "div_hide")
+{
+document.getElementById("div_text2").className = "div_show";
+document.getElementById("my_text2").innerText = "[-]";
+}
+else
+{
+
+document.getElementById("div_text2").className = "div_hide";
+document.getElementById("my_text2").innerText = "[+]";
+}
+}
+</script>
+
+<script language="javaScript">
+function showHideText3()
+{
+if (document.getElementById("div_text3").className == "div_hide")
+{
+document.getElementById("div_text3").className = "div_show";
+document.getElementById("my_text3").innerText = "[-]";
+}
+else
+{
+
+document.getElementById("div_text3").className = "div_hide";
+document.getElementById("my_text3").innerText = "[+]";
+}
+}
+</script>
+
+<script language="javaScript">
+function showHideText4()
+{
+if (document.getElementById("div_text4").className == "div_hide")
+{
+document.getElementById("div_text4").className = "div_show";
+document.getElementById("my_text4").innerText = "[-]";
+}
+else
+{
+
+document.getElementById("div_text4").className = "div_hide";
+document.getElementById("my_text4").innerText = "[+]";
+}
+}
+</script>
+
+<script language="javaScript">
+function showHideText5()
+{
+if (document.getElementById("div_text5").className == "div_hide")
+{
+document.getElementById("div_text5").className = "div_show";
+document.getElementById("my_text5").innerText = "[-]";
+}
+else
+{
+
+document.getElementById("div_text5").className = "div_hide";
+document.getElementById("my_text5").innerText = "[+]";
+}
+}
+</script>
+
+<script language="javaScript">
+function showHideText6()
+{
+if (document.getElementById("div_text6").className == "div_hide")
+{
+document.getElementById("div_text6").className = "div_show";
+document.getElementById("my_text6").innerText = "[-]";
+}
+else
+{
+
+document.getElementById("div_text6").className = "div_hide";
+document.getElementById("my_text6").innerText = "[+]";
+}
+}
+</script>
+
+<script language="javaScript">
+function showHideText7()
+{
+if (document.getElementById("div_text7").className == "div_hide")
+{
+document.getElementById("div_text7").className = "div_show";
+document.getElementById("my_text7").innerText = "[-]";
+}
+else
+{
+
+document.getElementById("div_text7").className = "div_hide";
+document.getElementById("my_text7").innerText = "[+]";
+}
+}
+</script>
+
+<script language="javaScript">
+function showHideText8()
+{
+if (document.getElementById("div_text8").className == "div_hide")
+{
+document.getElementById("div_text8").className = "div_show";
+document.getElementById("my_text8").innerText = "[-]";
+}
+else
+{
+
+document.getElementById("div_text8").className = "div_hide";
+document.getElementById("my_text8").innerText = "[+]";
+}
+}
+</script>
+
+<script language="javaScript">
+function showHideText9()
+{
+if (document.getElementById("div_text9").className == "div_hide")
+{
+document.getElementById("div_text9").className = "div_show";
+document.getElementById("my_text9").innerText = "[-]";
+}
+else
+{
+
+document.getElementById("div_text9").className = "div_hide";
+document.getElementById("my_text9").innerText = "[+]";
+}
+}
+</script>
+
+<script language="javaScript">
+function showHideText10()
+{
+if (document.getElementById("div_text10").className == "div_hide")
+{
+document.getElementById("div_text10").className = "div_show";
+document.getElementById("my_text10").innerText = "[-]";
+}
+else
+{
+
+document.getElementById("div_text10").className = "div_hide";
+document.getElementById("my_text10").innerText = "[+]";
+}
+}
+</script>
+
+
+<script language="javaScript">
+function showHideText11()
+{
+if (document.getElementById("div_text11").className == "div_hide")
+{
+document.getElementById("div_text11").className = "div_show";
+document.getElementById("my_text11").innerText = "[-]";
+}
+else
+{
+
+document.getElementById("div_text11").className = "div_hide";
+document.getElementById("my_text11").innerText = "[+]";
+}
+}
+</script>
+
+
+<script language="javaScript">
+function showHideText12()
+{
+if (document.getElementById("div_text12").className == "div_hide")
+{
+document.getElementById("div_text12").className = "div_show";
+document.getElementById("my_text12").innerText = "[-]";
+}
+else
+{
+
+document.getElementById("div_text12").className = "div_hide";
+document.getElementById("my_text12").innerText = "[+]";
+}
+}
+</script>
+
+
+<script language="javaScript">
+function showHideText13()
+{
+if (document.getElementById("div_text13").className == "div_hide")
+{
+document.getElementById("div_text13").className = "div_show";
+document.getElementById("my_text13").innerText = "[-]";
+}
+else
+{
+
+document.getElementById("div_text13").className = "div_hide";
+document.getElementById("my_text13").innerText = "[+]";
+}
+}
+</script>
+  
+<script language="javaScript">
+function showHideText14()
+{
+if (document.getElementById("div_text14").className == "div_hide")
+{
+document.getElementById("div_text14").className = "div_show";
+document.getElementById("my_text14").innerText = "[-]";
+}
+else
+{
+
+document.getElementById("div_text14").className = "div_hide";
+document.getElementById("my_text14").innerText = "[+]";
+}
+}
+</script>
+    
+      
+<script language="javaScript">
+function showHideText15()
+{
+if (document.getElementById("div_text15").className == "div_hide")
+{
+document.getElementById("div_text15").className = "div_show";
+document.getElementById("my_text15").innerText = "[-]";
+}
+else
+{
+
+document.getElementById("div_text15").className = "div_hide";
+document.getElementById("my_text15").innerText = "[+]";
+}
+}
+</script>
+
+<!--
+function toggle(abs_tr) {
+  var e = document.getElementById('abs-'+abs_tr);
+  document.status = e.style.display;
+  if(e.style.display == 'none') {
+    e.style.display = 'table-row';
+  } else {
+    e.style.display = 'none';
+  }
+}
+//-->
+
+</head>
+
+
+
+  <!-- Main body -->
+
+<div id="main">
+<!--
+<div id="top-banner">
+  Raju Krishnamoorthy
+</div>--!>
+    <nav class="navbar">
+     <!-- LOGO -->
+     <div class="logo">Raju Krishnamoorthy</div>
+     <!-- NAVIGATION MENU -->
+     <ul class="nav-links">
+       <!-- USING CHECKBOX HACK --><!--
+       <input type="checkbox" id="checkbox_toggle" />
+       <label for="checkbox_toggle" class="hamburger">&#9776;</label>--!>
+       <!-- NAVIGATION MENUS -->
+       <div class="menu">
+         <li><a href="index.html">Home</a></li>
+         <li><a href="math_research.html">Preprints and publications</a></li>
+	<li><a href="teaching.html">Teaching and events</a></li>
+       </div>
+     </ul>
+   </nav>
+   <h1>June minicourses on Hodge theory and geometry</h1>
+<h3>Philip Engel, Compact moduli of K3 surfaces </h3>
+
+For each \(d>0\), there is a 19-dimensional moduli space \(F_{2d}\) of K3 surfaces, with an ample line bundle of degree \(2d\). Choosing an ample divisor in a canonical way on each such K3 surface, the minimal model program provides a "KSBA" compactification of \(F_{2d}\). On the other hand, the Hodge theory of K3 surfaces implies that \(F_{2d}=\Gamma\backslash \mathbb{D}\) is a Type IV arithmetic quotient/orthogonal Shimura variety. In this capacity, it has a variety of compactifications: Baily-Borel, toroidal, semitoroidal. Can these two types of compactifications ever be identified?
+<h3>Michael McBreen, Introduction to Microlocal Sheaves</h3>
+Microlocal sheaf theory is the study of sheaves 'locally along the cotangent bundle' of a manifold. Many fundamental aspects of sheaves are best understood through this lens. This minicourse will give an introduction to the subject following Kashiwara and Schapira's classic book Sheaves on Manifolds. Although the book treats sheaves on smooth manifolds, we will focus on the complex analytic setting, in which many constructions admit purely algebraic interpretations.  
+
+
+
+
+
+
+<h3> Schedule</h3>
+<table border="8" cellpadding="4" cellspacing="2">
+	<tbody>
+
+
+				<tr>
+			<td>
+				June 13</td><td> 15:30 - 17:30 </td>
+			<td>
+				1.021 IRIS Adlershof</td>
+
+			<td>Degenerations of K3 surfaces
+				</td>
+			<td>The first lecture will introduce K3 surfaces and their one-parameter degenerations, in particular, semistable (aka Kulikov) models. In analogy with how stable graphs encode degenerations of curves, we will describe a way to combinatorially encode the data of a degeneration, using integral-affine structures on the sphere.
+ </td>
+		</tr>
+		<tr>
+			<td>
+				June 16 </td><td> 15:30 - 17:30</td>
+			<td>1.021 IRIS Adlershof</td>
+
+			<td>Degenerations of the period map, toroidal compactifications
+				</td>
+			<td>The second lecture will focus on the geometry of moduli spaces \(F_{2d}\) and their compactifications, from both the Hodge-theoretic and MMP perspectives. We will discuss degeneration of the period map, and give some explicit examples of (semi)toroidal compactifications, for \(F_{2}\) and for moduli of elliptic K3 surfaces.
+
+ </td>
+		</tr>
+
+		<tr>
+			<td>
+				June 19</td><td> 15:30 - 17:30 </td>
+			<td>1.221 IRIS Adlershof</td>
+
+			<td>Recognizable divisors
+				</td>
+			<td>
+The third lecture will introduce the notion of a "recognizable divisor". These are divisors chosen on the generic polarized K3 surface whose KSBA compactifications are Hodge-theoretic. We will give examples for \(F_2\) and for moduli of elliptic K3 surfaces. Then we will discuss the general theory of recognizable divisors, and how it can be applied to compactify \(F_{2d}\).
+
+ </td>
+		</tr>
+		
+		<tr>
+			<td>
+				June 20</td><td> 13:15 - 14:45 </td>
+			<td>3.006 Johannes von Neumann Gebäude</td>
+
+			<td>Introduction to microlocal sheaves
+				</td>
+			<td>
+The first two lectures will introduce the basics tools of the trade : the Fourier-Sato transform, specialization, microlocalisation and muhom functors. We will discuss the relationship with D-modules and microdifferential operators, and sketch a few applications.
+
+ </td>
+		</tr>
+		
+		<tr>
+			<td>
+				June 21</td><td> 13:15 - 14:45 </td>
+			<td>3.007 Johannes von Neumann Gebäude</td>
+
+			<td>Basic constructions and applications
+				</td>
+			<td> 
+
+ </td>
+		</tr>
+		
+		</tr>
+		
+		<tr>
+			<td>
+				June 26</td><td> 14:30 - 16:30 </td>
+			<td>1.221 IRIS Adlershof</td>
+
+			<td>Advanced constructions
+				</td>
+			<td>In the last two lectures, we will examine functoriality, contactomorphisms, microlocal perverse sheaves and (time permitting) microlocal sheaves on Weinstein manifolds.
+
+ </td>
+		</tr>
+		<tr>
+			<td>
+				June 27</td><td> 15:30 - 17:30 </td>
+			<td>1.021 IRIS Adlershof</td>
+
+			<td>Advanced constructions continued
+				</td>
+			<td> 
+
+ </td>
+		</tr>
+   </tbody>
+    </table>
+
+</div>
+
+</html>
+

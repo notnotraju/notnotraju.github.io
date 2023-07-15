@@ -11,7 +11,12 @@
 　　 -－> 
 　　 </style>
 
-<title>Seminar on flat connections in positive and mixed characteristic</title>
+<title>Minicourses on Geometry and Hodge theory</title>
+
+<!-- MathJax for latex -->
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
 <!-- link to main stylesheet -->
     <link rel="stylesheet" type="text/css" href="main.css">
     
@@ -352,181 +357,121 @@ function toggle(abs_tr) {
        </div>
      </ul>
    </nav>
-<h3> Goal </h3>
+   <h1>June minicourses on Hodge theory and geometry</h1>
+<h4><a href = "https://philip-engel.github.io/">Philip Engel</a>, Compact moduli of K3 surfaces </h4>
+
+For each \(d>0\), there is a 19-dimensional moduli space \(F_{2d}\) of K3 surfaces, with an ample line bundle of degree \(2d\). Choosing an ample divisor in a canonical way on each such K3 surface, the minimal model program provides a "KSBA" compactification of \(F_{2d}\). On the other hand, the Hodge theory of K3 surfaces implies that \(F_{2d}=\Gamma\backslash \mathbb{D}\) is a Type IV arithmetic quotient/orthogonal Shimura variety. In this capacity, it has a variety of compactifications: Baily-Borel, toroidal, semitoroidal. Can these two types of compactifications ever be identified?<br>
+Phil is kindly writing up <a href = "Phil1.pdf">notes</a> for his talk.<br>
+<h4><a href = "https://sites.google.com/view/mmcbreen/home">Michael McBreen</a>, Introduction to Microlocal Sheaves</h4>
+Microlocal sheaf theory is the study of sheaves 'locally along the cotangent bundle' of a manifold. Many fundamental aspects of sheaves are best understood through this lens. This minicourse will give an introduction to the subject following Kashiwara and Schapira's classic book Sheaves on Manifolds. Although the book treats sheaves on smooth manifolds, we will focus on the complex analytic setting, in which many constructions admit purely algebraic interpretations.  
 
 
-The goal of this seminar is to study flat connections in positive and mixed characteristic. One of the main goals is to  understand spectacular recent work of <a href = "https://arxiv.org/abs/1707.00752">Esnault-Gröchenig</a>. To this end, we will survey the theory of p-curvature, mod p nonabelian Hodge theory, the Hitchin fibration, and (iso)crystals. Time/enthusiasm permitting, we may discuss applications to characteristic 0 algebraic geometry using these techniques, in particular the work of Arapura and Langer. A preliminary program may be found <a href = "MIC_seminar.pdf">here</a>.
 
 
-<h3> Schedule</h3>
+
+
+<h2> Schedule</h2>
 <table border="8" cellpadding="4" cellspacing="2">
 	<tbody>
 
 
 				<tr>
 			<td>
-				April 24 </td>
-			<td>Raju
-</td>
-
-			<td>Introduction to flat connections, peculiarities in positive characteristic, p-curvature
-				</td>
-			<td><a href = "MIC_lecture1.pdf">Notes</a>. </td>
-		</tr>
-<tr>
+				June 13</td><td> 15:30 - 17:30 </td>
 			<td>
-				May 8 </td>
-			<td>Raju
-</td>
+				1.021 IRIS Adlershof</td>
 
-			<td>the ring of crystalline differential operators and p-curvature
+			<td>Degenerations of K3 surfaces
 				</td>
-			<td><a href = "p_curvature_small.pdf">Notes</a>.</td>
+			<td>The first lecture will introduce K3 surfaces and their one-parameter degenerations, in particular, semistable (aka Kulikov) models. In analogy with how stable graphs encode degenerations of curves, we will describe a way to combinatorially encode the data of a degeneration, using integral-affine structures on the sphere.
+ </td>
 		</tr>
 		<tr>
 			<td>
-				May 10 (online) </td>
-			<td>Raju
-</td>
+				June 16 </td><td> 15:30 - 17:30</td>
+			<td>1.021 IRIS Adlershof</td>
 
-			<td>p-curvature continued
+			<td>Degenerations of the period map, toroidal compactifications
 				</td>
-			<td>
-			See notes from May 8 for details and <a href = "summary_p_curvature_small.pdf">here</a> for a summary.
-			
-			(<a href = "https://annals.math.princeton.edu/wp-content/uploads/annals-v167-n3-p05.pdf">[p. 949-955, BMR08]</a> and <a href = "https://www.intlpress.com/site/pub/files/_fulltext/journals/mrl/2016/0023/0004/MRL-2016-0023-0004-a003.pdf">[G15]</a> may also be helpful.)
-			</td>
-		</tr>
-				<tr>
-			<td>
-				May 15 </td>
-			<td>Raju
-</td>
+			<td>The second lecture will focus on the geometry of moduli spaces \(F_{2d}\) and their compactifications, from both the Hodge-theoretic and MMP perspectives. We will discuss degeneration of the period map, and give some explicit examples of (semi)toroidal compactifications, for \(F_{2}\) and for moduli of elliptic K3 surfaces.
 
-			<td>Crystals and Isocrystals
-				</td>
-			<td><a href = "crystals_small.pdf">Notes</a>. The lecture notes <a href = "https://www.math.mcgill.ca/goren/SeminarOnCohomology/Seminairecohomologie.pdf">[MHN]</a> are a well-motivated introduction to some of this material.</td>
+ </td>
 		</tr>
 
 		<tr>
 			<td>
-				May 19 (online) </td>
-			<td>Raju
-</td>
+				June 19</td><td> 15:30 - 17:30 </td>
+			<td>1.221 IRIS Adlershof</td>
 
-			<td>Crystals, continued
+			<td>Recognizable divisors
 				</td>
-			<td><a href = "crystals_2_small.pdf">Notes</a>. For a much more complete summary, please see <a href = "https://arxiv.org/abs/1606.01321">[K16]</a>. The article <a href = "https://www.imo.universite-paris-saclay.fr/~luc.illusie/Illusie-Pisa5.pdf">[Ill15]</a> also has helpful comments on the notion of a crystal, the Taylor formula, etc.</td> 
+			<td>
+The third lecture will introduce the notion of a "recognizable divisor". These are divisors chosen on the generic polarized K3 surface whose KSBA compactifications are Hodge-theoretic. We will give examples for \(F_2\) and for moduli of elliptic K3 surfaces. Then we will discuss the general theory of recognizable divisors, and how it can be applied to compactify \(F_{2d}\).
+
+ </td>
+		</tr>
+		
+		<tr>
+			<td>
+				June 20</td><td> 13:15 - 14:45 </td>
+			<td>3.006 Johannes von Neumann Gebäude</td>
+
+			<td>Introduction to microlocal sheaves
+				</td>
+			<td>We introduce the basic tools of the trade : the singular support of a sheaf, the Fourier-Sato transform, Verdier specialization, Sato's microlocalisation and the microlocal hom sheaf. 
+
+ </td>
+		</tr>
+		
+		<tr>
+			<td>
+				June 21</td><td> 13:15 - 14:45 </td>
+			<td>3.007 Johannes von Neumann Gebäude</td>
+
+			<td>General definitions and explicit constructions
+				</td>
+			<td> Given a manifold \(M\) and an open subset \(U\) of the cotangent bundle \(T^*M\), we define the category \(\mu Sh(U)\) of microlocal sheaves on \(U\), as well as the category \(\mu Sh_Z(U)\) of microlocal sheaves supported on any given subset \(Z\) of \(U\). We sketch the basic features of this category, and describe it as explicitly as possible using the constructions from Lecture 1.
+
+ </td>
+		</tr>
+		
+		</tr>
+		
+		<tr>
+			<td>
+				June 26</td><td> 14:30 - 16:30 </td>
+			<td>1.221 IRIS Adlershof</td>
+
+			<td>D-modules and Riemann-Hilbert
+				</td>
+			<td>We revisit Lectures 1 and 2 from the perspective of D-modules. We will discuss characteristic varieties, microdifferential operators and the Riemann-Hilbert correspondence. 
+
+ </td>
 		</tr>
 		<tr>
 			<td>
-				May 22 </td>
-			<td>Paul
-</td>
+				June 27</td><td> 15:30 - 17:30 </td>
+			<td>1.021 IRIS Adlershof</td>
 
-			<td>Non-abelian Hodge theory mod p
+			<td>Advanced constructions
 				</td>
+			<td> We will discuss the behavior of microlocal sheaves under pushforwards, pullbacks and microlocal correspondences. We examine microlocal index theorems, which compute (local) Euler characteristics via intersection numbers of Lagrangian cycles in the cotangent bundles. We sketch the definition of microlocal sheaves on a general Weinstein manifold, and the relation with the Fukaya category.
 
-			<td><a href = "NAHT_small.pdf">Notes</a></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>
-				May 25 (online) </td>
-			<td>Paul
-</td>
-
-			<td>Non-abelian Hodge theory mod p II
-				</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>
-				May 30  </td>
-			<td>Josh
-</td>
-
-			<td>Properties of non-abelian Hodge theory mod p, periodicity
-				</td>
-
-			<td><a href = "stability_small.pdf">Notes</a></td>
-
-			<td></td>
-		</tr>
-				<tr>
-			<td>
-				June 12th  </td>
-			<td>Raju
-</td>
-
-			<td>The BNR correspondence and its de Rham incarnation in characteristic p
-				</td>
-			<td><a href = "BNR_small.pdf">Notes</a></td>
-		</tr>
-			<tr>
-			<td>
-				June 19th  </td>
-			<td>Yichen
-</td>
-
-			<td>Spreading out and global nilpotence of flat connections
-				</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>
-				July 3rd  </td>
-			<td>Raju
-</td>
-
-			<td>Global nilpotence and periodicity of rigid flat connections
-				</td>
-			<td><a href = "globally_nilpotent_small.pdf">Notes</a></td>
-		</tr>
-
-			<td></td>
+ </td>
 		</tr>
    </tbody>
     </table>
-
-<br><br>
-
-<h3> References </h3>
-The following are orienting references. For a complete list of references (with full bibliographic information), please see the seminar program.
-<ul>
-<li>[EG20], Esnault, H.; Gröchenig, M. <a href = "https://arxiv.org/abs/1707.00752">Rigid connections and F-isocrystals.</a>
-<li>[E22], Esnault, H. <a href = "https://page.
-mi.fu-berlin.de/esnault/preprints/helene/147_eilenberg.pdf">Lectures on local systems in algebraic-arithmetic geometry</a>
-<li>[G15], Gröchenig, M. <a href = "https://arxiv.org/abs/1201.0741">Moduli of flat connections in positive characteristic</a>
-<li>[K16], Kedlaya, K. <a href = "https://arxiv.org/abs/1606.01321">Notes on isocrystals</a>. If the crash course on crystals/isocrystals was too succinct, Kedlaya's article is a wonderful resource.
-<li>[LSZ15], Lan, G.; Sheng, M.; Zuo, K. <a href = "https://arxiv.org/abs/1312.0393">Nonabelian Hodge theory in positive characterstic via exponential twisting</a>
-<li>[OV07], Ogus, A.; Vologodsky, V. <a href = "https://arxiv.org/abs/math/0507476">Nonabelian Hodge theory in characteristic p</a>
-<li>[Oss], Osserman, B. <a href = "osserman_connections.pdf">Connections, curvature, and p-curvature</a>. These are notes of Brian Osserman that I found helpful/clarifying, especially for Mochizuki's perspective on p-curvature.
-<li>[Yun19] Hao, Y. <a href = "https://refubium.fu-berlin.de/handle/fub188/25261">A Simpson Correspondence for Abelian Varieties in Positive Characteristic</a>. This is the PhD thesis of Y. Hao, which is a very helpful guide to Gröchenig's perspective on the BNR correspondence.
-</ul>
-
-<!--
-<ul>
-<li><a href="https://doi.org/10.1112/S0010437X22007333">
-Rank 2 local systems and abelian varieties II</a> (with Ambrus Pál)
-
-<ul>Compositio Mathematica, 158:4 (2022), 868-892, arXiv <a href = "https://arxiv.org/abs/2003.07831">2003.07831</a>.  <a id="my_text11" href="javaScript:showHideText11()">[+]</a>
-</ul>
-<ul>
+    
+    <h2>Location</h2>
+    The lectures will be held at<ul> 
+    <li>Johannes von Neumann Gebäude (<a href = "https://goo.gl/maps/Nc8jcg3eSDnACpNp8">Rudower Chaussee 25</a>); and
+    <li>  IRIS Adlershof (<a href = "https://goo.gl/maps/mRcYEzSEu84snzAs9">Zum Großen Windkanal 2</a>). 
+    </ul><br>
+    
+Both buildings are near each other in the Adlershof campus of the Humboldt University of Berlin. From the city center, take the south/airport-bound S-Bahn trains 8, 9, 45, 46 or 85 to the S-Adlershof station. Then take the west-bound trams (any) or buses 162, 163, 164 for 2 stops to Magnusstraße (Magnusstr.), or walk for about 10 minutes.<br><br>
+<a href="https://www.cms.hu-berlin.de/de/ueberblick/lage/plan_adlershof_html" class="external">A detailed local map </a>
 
 
-<div id="div_text11" class="div_hide">
-<span style="font-size:0.99em">
-
-	Let X/<strong>F</strong><sub>q</sub> be a smooth, geometrically connected, quasi-projective variety. Let <em>E</em> be a semi-simple overconvergent F-isocrystal on X such that for each closed point x of X, the polynomial P<sub>x</sub>(<em>E</em>,t) has coefficients in <strong>Q</strong>. Suppose that each summand has rank 2, determinant Q<sub>p</sub>(-1), and infinite monodromy around infty. We show that <em>E</em> comes from a family of abelian varieties.</p>
-<p> This is in analogy to the celebrated work of Corlette-Simpson on rigid rank 2 local systems on smooth complex varieties. We use as input Drinfeld's first work on the Langlands correspondence for GL<sub>2</sub>, Abe's work on the p-adic Langlands correspondence, the theory of (both l-adic and p-adic) companions, Poonen's Bertini theorem over finite fields, and crucially, the pigeonhole principle! 
-
-
-	</span>
-</div>
-</ul></br>
-</ul>
---!>
 </div>
 
 </html>

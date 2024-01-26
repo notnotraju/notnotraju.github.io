@@ -1,0 +1,173 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+    
+     <style type="text/css">
+　　 <!--
+　　 a:link { text-decoration: none;color: blue}
+　　 a:active { text-decoration:blink}
+　　 a:hover { text-decoration:underline;color: blue} 
+　　 a:visited { text-decoration: none;color: green}
+
+　　 -－> 
+　　 </style>
+
+<title>zk Hack IV.2</title>
+<!-- link to main stylesheet -->
+    <link rel="stylesheet" type="text/css" href="main.css">
+    
+    <style>
+	 
+p.a {
+    font-style: normal;
+}
+
+p.b {
+    font-style: italic;
+}
+
+p.c {
+    font-style: oblique;
+}
+</style>
+
+<style>
+  .visi1 { visibility:"visible" }
+  .visi2 { visibility:"hidden" }
+  .disp1 { display:"block" }
+  .disp2 { display:"none" }
+
+.div_show
+{
+display:block;
+margin-top:5px;
+margin-left:5px;
+margin-bottom:5px;
+margin-right:80px;
+padding:8px;
+background:#EFF5E0;
+border:solid 1px #c3c3c3;
+
+}
+.div_hide
+{
+display:none;
+}
+</style>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
+    TeX: { equationNumbers: { autoNumber: "AMS" } }
+});
+</script>
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+</head>
+
+\(  %  TeX macros
+   \newcommand{\G}{\mathbb{G}}
+   \newcommand{\Fr}{\mathbb F_r}
+   \newcommand{\M}{\mathcal M}
+   \newcommand{\Z}{\mathbb{Z}}
+   \newcommand{\adv}{{\cal A}}
+   \newcommand{\bdv}{{\cal B}}
+   \newcommand{\deq}{\mathrel{\mathop:}=}
+   \newcommand{\SK}{\mathit{sk}}
+   \newcommand{\PK}{\mathit{pk}}
+   \newcommand{\APK}{\mathit{apk}}
+   \newcommand{\MM}{\mathcal{M}} 
+   \newcommand{\rgets}{\mathop{\gets\!\!\!\!\!\mbox{}^{\scriptscriptstyle\text{R}}\kern.2em}\ }
+   \newcommand{\xwedge}{\, \operatorname{\text{\(\wedge\)}}\, }
+   \newcommand{\abs}[1]{\lvert #1 \rvert}
+   \newcommand{\Hm}{H_0}
+   \newcommand{\Hpk}{H_1}
+   \newcommand{\qHpk}{Q_{\Hpk}}
+   \newcommand{\qHm}{Q_{\Hm}}
+   \newcommand{\qsig}{Q_{\text{sig}}}
+   \newcommand{\Bmu}{\mbox{$\raisebox{-0.59ex}
+  {$l$}\hspace{-0.18em}\mu\hspace{-0.88em}\raisebox{-0.98ex}{\scalebox{2}
+  {$\color{white}.$}}\hspace{-0.416em}\raisebox{+0.88ex}
+  {$\color{white}.$}\hspace{0.46em}$}{}}
+\)
+
+
+
+
+
+  <!-- Main body -->
+
+<div id="main">
+<!--
+<div id="top-banner">
+  Raju Krishnamoorthy
+</div>--!>
+    <nav class="navbar">
+     <!-- LOGO -->
+     <div class="logo">Raju Krishnamoorthy</div>
+     <!-- NAVIGATION MENU -->
+     <ul class="nav-links">
+       <!-- USING CHECKBOX HACK --><!--
+       <input type="checkbox" id="checkbox_toggle" />
+       <label for="checkbox_toggle" class="hamburger">&#9776;</label>--!>
+       <!-- NAVIGATION MENUS -->
+       <div class="menu">
+
+         <li><a href="index.html">Home</a></li>
+         <li><a href="math_research.html">Preprints and publications</a></li>
+	<li><a href="teaching.html">Teaching and events</a></li>
+
+       </div>
+     </ul>
+   </nav>
+   <h2>1. BLS signatures </h2>
+   We briefly recall BLS signatures, following the summary given in section 1 of <a href = "https://crypto.stanford.edu/~dabo/pubs/papers/BLSmultisig.html">this article</a> (from which we steal much of the notation, the organization, and also the LaTex). Our notation conforms to the notation in the <a href="https://github.com/ZK-Hack/puzzle-supervillain">puzzle</a>. 
+   <br></br>
+   Let $$e\colon \G_1\times \G_2\rightarrow \boldsymbol{\mu}$$ be a non-degenerate bilinear map, with standard cryptographic assumptions, where all groups in question have size $r$, a prime number. In this note, group operations in $\mathbb G_i$ are written multiplicatively, while the group operation in the additive group $(\Fr,+)$ are writtenly additively.
+   
+   <br></br>Let $H\colon \M\rightarrow  \G_2$  be a hash function. Let $g_i$ be a generator of $\G_i$. BLS works as follows.
+   
+   <h3>Key generation</h3>
+   Sample a random $\alpha\rgets \Fr$. Then the private (signing) key is $\SK:=\alpha$ and the public (verifying) key is $\PK:=g_1^{\alpha}\in \G_1$. Note that this expression makes sense as $\G_1$ has size $r$.
+   <h3>Signing</h3>
+   Let $m\in \mathcal M$ be a message. Then the algorithm $\textbf{Sign}(\SK, m)$ outputs a single element $\sigma:=H(m)^{\SK}\in \G_2$
+   <h3>Verification</h3>
+   Given $\PK$, $m$, and a signature $\sigma$, the verification algorithm $\textbf{Verify}(\PK, m, \sigma)$ checks if the following equality in $\boldsymbol\mu$ holds: $$e(g_1,\sigma)=e(\PK, H(m))$$(i.e., the algorithm returns 1 if the equality holds and 0 else). Note that this involves computing two pairings, which tend to be computationally expensive.
+   <h3>Aggregation</h3>
+Suppose we have $N$ secret (signing) keys $\{\SK_i\}_{i=1}^N$ and a single message $m$, and we want an algorithm that verifies that each of the $N$ parties has independently signed $m$. Set $\sigma_i:=\textbf{Sign}(\SK_i,m)$. The naive verification algorithm requires $2N$ pairings. <br></br>Fortunately, there is a naive way to <i>aggregate</i> the signatures $\sigma_i$, namely set:
+
+<ul>
+<li>
+$\displaystyle \sigma_{\text{agg}}:=\prod_{i=1}^N \sigma_i\in \G_1$
+</li>
+
+<li style="margin-top:1em">
+$\PK_{\text{agg}}:=\prod \PK_i\in \G_1$
+</li>
+
+<li style="margin-top:1em">
+$\SK_{\text{agg}}:=\sum \SK_i\in \Fr$
+</li>
+</ul>
+Note that anyone who has access to $\{\PK_i\}$ and $\sigma_i$ can compute the first two aggregations. Furthermore, $g_1^{\SK_{\text{agg}}}=\PK_{\text{agg}}.$
+Then aggrigate verification is given by: $$\textbf{Aggregate-Verify}(\{\PK_i\},m, \{\sigma_i\}):=\textbf{Verify}(\PK_{\text{agg}},m,\sigma_{\text{agg}}).$$
+
+It therefore seems as though given $\{\PK_i\}$ and $m$, we only need a <i>single signature</i> $\sigma_{\text{agg}}$ to check that all parties have signed $m$.
+
+<h2>Naive aggregation has a potential security flaw</h2>
+This form of aggregation is amenable to a <i>rogue key attack</i>. Namely, suppose I am a crafty and malicious actor, and I want to convince someone that I and a set of parties with public (verification) keys $\{\PK_i\}$ have all signed a given message $m\in \M$. I can pick any $\beta\in \Fr$ and <i>declare</i> my "public key" to be $g_1^{\beta}\prod pk_i^{-1}$. (Note that while this public key of course has a unique corresponding secret key, as $g_1\in \mathbb G_1$ is a generator, I do not know this secret key!)
+
+Then I can "sign" (a.k.a. <i>forge</i>) our joint signature by sending off $\sigma_{\text{fake agg}}:=H(m)^{\beta}=\textbf{Sign}(\beta, m)$. The verifying algorithm above would compute the aggregate public key (include my fake public key) is $g_1^{\beta}$, and verification would pass.
+
+Moreover, even if the verification algorithm needed to take in all of the individual claimed signatures, I can easily just send fake signatures $\sigma_{i,\text{fake}}\in \G_2$, with the property that:
+$$H(m)^{\beta}=\prod\sigma_{i,\text{fake}},$$
+which would mean that the verifier herself computes the aggregate of $\sigma_{i,\text{fake}}$ to be what I want, namely $H(m)^{\beta}$.
+
+<h3>Proof of knowledge</h3>
+Note that my being able to forge a signature relied on me broadcasting a "public key" whose corresponding secret key is <i>unknown to me</i>. Therefore, one potential way of getting around the above security flaw is to force all of the parties to somehow prove that they "know" their corresponding secret keys! There are of course many ways of doing this.
+
+</div>
+
+</html>
+

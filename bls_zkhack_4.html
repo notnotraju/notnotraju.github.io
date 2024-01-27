@@ -124,9 +124,9 @@ MathJax.Hub.Config({
    <h2>1. BLS signatures </h2>
    We briefly recall BLS signatures, following the summary given in section 1 of <a href = "https://crypto.stanford.edu/~dabo/pubs/papers/BLSmultisig.html">this article</a> (from which we steal much of the notation, the organization, and also the LaTex). Our notation conforms to the notation in the <a href="https://github.com/ZK-Hack/puzzle-supervillain">puzzle</a>. 
    <br></br>
-   Let $$e\colon \G_1\times \G_2\rightarrow \boldsymbol{\mu}$$ be a non-degenerate bilinear map, with standard cryptographic assumptions, where all groups in question have size $r$, a prime number. In this note, group operations in $\mathbb G_i$ are written multiplicatively, while the group operation in the additive group $(\Fr,+)$ are writtenly additively.
+   Let $$e\colon \G_1\times \G_2\rightarrow \boldsymbol{\mu}$$ be a non-degenerate bilinear map, with standard cryptographic assumptions, where all groups in question have size $r$, a prime number. In this note, group operations in $\mathbb G_i$ and $\boldsymbol{\mu}$ are written multiplicatively, while the group operation in the additive group $(\Fr,+)$ is writtenly additively.
    
-   <br></br>Let $H\colon \M\rightarrow  \G_2$  be a hash function. Let $g_i$ be a generator of $\G_i$. BLS works as follows.
+   <br></br>Let $H\colon \M\rightarrow  \G_2$  be a hash function from the space of messages $\M$ to $\G_2$. Let $g_i$ be a generator of $\G_i$. BLS works as follows.
    
    <h3>Key generation</h3>
    Sample a random $\alpha\rgets \Fr$. Then the private (signing) key is $\SK:=\alpha$ and the public (verifying) key is $\PK:=g_1^{\alpha}\in \G_1$. Note that this expression makes sense as $\G_1$ has size $r$.
@@ -153,7 +153,7 @@ $\SK_{\text{agg}}:=\sum \SK_i\in \Fr$
 Note that anyone who has access to $\{\PK_i\}$ and $\sigma_i$ can compute the first two aggregations. Furthermore, $g_1^{\SK_{\text{agg}}}=\PK_{\text{agg}}.$
 Then aggrigate verification is given by: $$\textbf{Aggregate-Verify}(\{\PK_i\},m, \{\sigma_i\}):=\textbf{Verify}(\PK_{\text{agg}},m,\sigma_{\text{agg}}).$$
 
-It therefore seems as though given $\{\PK_i\}$ and $m$, we only need a <i>single signature</i> $\sigma_{\text{agg}}$ to check that all parties have signed $m$.
+In particular, aggrigate verification will first compute $\PK_{\text{agg}}$ and $\sigma_{\text{agg}}$ and then run normal verification. It therefore seems as though given $\{\PK_i\}$ and $m$, we only need a <i>single signature</i> $\sigma_{\text{agg}}$ to check that all parties have signed $m$.
 
 <h2>Naive aggregation has a potential security flaw</h2>
 This form of aggregation is amenable to a <i>rogue key attack</i>. Namely, suppose I am a crafty and malicious actor, and I want to convince someone that I and a set of parties with public (verification) keys $\{\PK_i\}$ have all signed a given message $m\in \M$. I can pick any $\beta\in \Fr$ and <i>declare</i> my "public key" to be $g_1^{\beta}\prod pk_i^{-1}$. (Note that while this public key of course has a unique corresponding secret key, as $g_1\in \mathbb G_1$ is a generator, I do not know this secret key!)
@@ -165,7 +165,13 @@ $$H(m)^{\beta}=\prod\sigma_{i,\text{fake}},$$
 which would mean that the verifier herself computes the aggregate of $\sigma_{i,\text{fake}}$ to be what I want, namely $H(m)^{\beta}$.
 
 <h3>Proof of knowledge</h3>
-Note that my being able to forge a signature relied on me broadcasting a "public key" whose corresponding secret key is <i>unknown to me</i>. Therefore, one potential way of getting around the above security flaw is to force all of the parties to somehow prove that they "know" their corresponding secret keys! There are of course many ways of doing this.
+Note that my being able to forge a signature relied on me broadcasting a "public key" whose corresponding secret key is <i>unknown to me</i>. Therefore, one potential way of getting around the above security flaw is to force all of the parties to somehow prove that they "know" their corresponding secret keys (without revealing any bits of information about the keys themselves)! There are of course many ways of doing this. An interesting feature of <a href = "https://rist.tech.cornell.edu/papers/pkreg.pdf">this paper</a> is that we can use BLS itself to provide a proof of knowledge: the prover must broadcast $\PK$ as well as $$\textbf{Sign}(sk,\langle pk\rangle):=H(\langle \PK\rangle)^{\SK},$$, where $\langle \PK\rangle$ is a bit encoding of $\PK$.
+
+(Note that in the definition of $\textbf{Sign}(-,-)$, there was an implicit hash function $H\colon \M\rightarrow \G_2$. More honest notation would be $\textbf{Sign}_H(-,-)$. In particular, the hash function in the proof-of-knowledge does not need to be the same as the normal signature hash function.)
+
+Therefore, we see that there is a certain class of functions $F\colon \M\rightarrow \G_2$ such that the function:
+$$\SK\mapsto (\PK,F(\langle \PK\rangle)^{\PK})$$
+furnishes a <i>computationally secure</i> proof of knowledge.
 
 </div>
 

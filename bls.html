@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta content='text/html; charset=utf-8' http-equiv='Content-Type' /> 
+<link rel='stylesheet' type='text/css' href='https://crypto.stanford.edu/~dabo/pubs/dabo.css' /> 
+<style>
+p.paragraph{
+  margin-top: 2em;
+}
+span.paragraph {
+  font-weight: bold;
+  margin-right: 0.5em;
+}
+li.algbullet {
+  margin-top: .4em;
+}
+.theorem {
+  border:1px solid black; 
+  padding: 0em .5em;
+  margin-top: 2em;
+}
+td {
+  valign:top;
+  text-align:left;
+  vertical-align:top;
+  padding: 0em 0em 1em .5em;
+}
+a.cite {
+  font-size: 90%;
+  color: black;
+}
+</style>
+
+<title>BLS Multi-Signatures With Public-Key Aggregation</title>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
+    TeX: { equationNumbers: { autoNumber: "AMS" } }
+});
+</script>
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+</head>
+
+<body>
+
+\(  %  TeX macros
+   \newcommand{\G}{\mathbb{G}}
+   \newcommand{\Z}{\mathbb{Z}}
+   \newcommand{\adv}{{\cal A}}
+   \newcommand{\bdv}{{\cal B}}
+   \newcommand{\deq}{\mathrel{\mathop:}=}
+   \newcommand{\SK}{\mathit{sk}}
+   \newcommand{\PK}{\mathit{pk}}
+   \newcommand{\APK}{\mathit{apk}}
+   \newcommand{\MM}{\mathcal{M}} 
+   \newcommand{\rgets}{\mathop{\gets\!\!\!\!\!\mbox{}^{\scriptscriptstyle\text{R}}\kern.2em}\ }
+   \newcommand{\xwedge}{\, \operatorname{\text{\(\wedge\)}}\, }
+   \newcommand{\abs}[1]{\lvert #1 \rvert}
+   \newcommand{\Hm}{H_0}
+   \newcommand{\Hpk}{H_1}
+   \newcommand{\qHpk}{Q_{\Hpk}}
+   \newcommand{\qHm}{Q_{\Hm}}
+   \newcommand{\qsig}{Q_{\text{sig}}}
+\)
+
+
+<body> 
+<div id="inner-wrapper"> 
+<div id="outer-wrapper"> 
+<h1 id='header' style="text-align:center">BLS Multi-Signatures With Public-Key Aggregation</h1>
+<div id='content'>
+
+<h2 style="text-align:center;font-weight:normal">Dan Boneh, &nbsp;&nbsp; Manu Drijvers, &nbsp;&nbsp; Gregory Neven
+</h2>
+<h3 style="text-align:center">March 24, 2018</h3>
+
+
+<p>
+<span class="paragraph">Abstract.</span>  
+This short note describes a simple approach for aggregating many
+BLS signatures on a common message, so that verifying the short
+multi-signature is fast.  
+Moreover, the system supports public key aggregation,
+where the verification algorithm only uses a short aggregated public key.  
+The original public keys are not needed for verifying the
+multi-signature. 
+An important property of the construction is that the scheme is secure 
+against a rogue public-key attack <i>without</i> requiring users to 
+prove knowledge of their secret keys (this is sometimes called
+the plain public-key model).
+The construction builds upon the work of Bellare and Neven,
+and the recent work of Maxwell, Poelstra, Seurin, and Wuille.
+</p>
+
+<p>
+<b>Note:</b> The full version of this work titled 
+<b>Compact Multi-Signatures for Smaller Blockchains</b>
+is available <a href="https://eprint.iacr.org/2018/483.pdf">here</a>. 
+</p>
+
+
+<h2>1. BLS signature aggregation </h2>
+
+<p>
+The BLS signature scheme [<a class='cite' href='#BLS01'>BLS01</a>] operates in a prime order group and supports
+simple threshold signature generation, threshold key generation,
+and signature aggregation [<a class='cite' href='#BGLS03'>BGLS03</a>].  To review, the scheme
+uses the following ingredients:
+</p>
+<ul>
+<li>
+a <b>bilinear pairing</b>
+$e:\G_0 \times \G_1 \to \G_T$.
+The pairing is efficiently computable, 
+non-degenerate, and all three groups have prime order $q$.
+We let $g_0$ and $g_1$ be generators of $\G_0$ and $\G_1$ respectively.
+</li>
+
+<li style="margin-top:1em">
+a <b>hash function</b>
+$\Hm: \MM \to \G_0$.  The hash function will be treated as a random oracle in the security
+analysis. 
+</li>
+</ul>
+
+<p>
+Now the BLS signature scheme is defined as follows:
+</p>
+<ul>
+<li>
+$\textbf{KeyGen}()$: &nbsp;
+choose a random $\alpha \rgets \Z_q$ and set $h \gets g_1^\alpha \in \G_1$.
+output $\PK \deq (h)$ and $\SK \deq (\alpha)$.
+</li>
+
+<li style="margin-top:1em">
+$\textbf{Sign}(\SK, m)$: &nbsp;
+output $\sigma \gets \Hm(m)^\alpha \in \G_0$.
+The signature is a <i>single</i> group element. 
+</li>
+
+<li style="margin-top:1em">
+$\textbf{Verify}(\PK,m,\sigma)$: &nbsp;
+if $e(g_1, \sigma) = e\big(\PK,\ \Hm(m)\big)$ &nbsp; output "accept",
+otherwise output "reject".
+</li>
+</ul>
+
+<p>
+<b>Signature aggregation.</b>
+Given triples $(\PK_i,\ m_i,\ \sigma_i)$ for $i=1,\ldots,n$,
+anyone can aggregate the signatures $\sigma_1,\ldots,\sigma_n \in \G_0$ 
+into a short convincing
+aggregate signature $\sigma$ by computing
+\begin{equation} \label{eq:agg}
+  \sigma \gets \sigma_1 \cdots \sigma_n \in \G_0.  
+\end{equation}
+Verifying an aggregate signature $\sigma \in \G_0$ is done by checking that
+\begin{equation} \label{eq:aggdiff}
+  e(g_1, \sigma) = e\big(\PK_1,\ \Hm(m_1)\big) \cdots e\big(\PK_n,\ \Hm(m_n)\big).
+\end{equation}
+When all the messages are the same ($m_1 = \ldots = m_n$)
+the verification relation \eqref{eq:aggdiff} reduces to a simpler
+test that requires only two pairings: 
+\begin{equation} \label{eq:aggsame}
+  e(g_1, \sigma) = e\Big(\PK_1 \cdots \PK_n,\ \Hm(m_1)\Big).
+\end{equation}
+</p>
+
+<p>
+<b>The rogue public-key attack.</b>
+This signature aggregation method \eqref{eq:agg} is insecure by itself due to
+a rogue public-key attack, 
+where an attacker registers the 
+public key $\PK_2 \deq g_1^\beta \cdot (\PK_1)^{-1} \in \G_1$,
+where $\PK_1 \in \G_1$ is a public key of some unsuspecting user Bob,
+and $\beta \rgets \Z_q$ is chosen by the attacker. 
+The attacker can then claim that both it and Bob signed 
+some message $m \in \MM$
+by presenting the aggregate signature
+$  \sigma \deq \Hm(m)^\beta.  $
+This signature verifies as an aggregate of two signatures, one from 
+$\PK_1$ and one from $\PK_2$, because
+\[  e(g_1,\sigma) = e\big(g_1,\ \Hm(m)^\beta \big) =  
+			e\big(g_1^\beta,\ \Hm(m)\big) =  
+			e\big(\PK_1 \cdot \PK_2,\ \Hm(m)\big). \] 
+Hence, this $\sigma$ satisfies \eqref{eq:aggsame}.
+In effect, the attacker committed Bob to the message $m$, without Bob ever
+signing $m$.
+
+<p style="margin-bottom:0.2em">
+<b>Defenses.</b>
+There are two standard defenses against the rogue public-key attack:
+</p>
+<ul style="margin-top:0em">
+<li class="algbullet"> 
+<b>Prove knowledge of the secret key (KOSK)</b> [<a class='cite' href='#Bol03'>Bol03</a>, <a class='cite' href='#LOS06'>LOS06</a>, <a class='cite' href='#RY07'>RY07</a>]:  <br/>
+Require every user that registers a public key to prove knowledge
+of the corresponding secret key.  However, this is difficult
+to enforce in practice, and does not fit well with 
+applications to crypto currencies [<a class='cite' href='#MPSW18'>MPSW18</a>].
+</li>
+
+<li class="algbullet"> 
+<b>Distinct messages</b> [<a class='cite' href='#BGLS03'>BGLS03</a>, <a class='cite' href='#BNN07'>BNN07</a>]:  <br/>
+Alternatively, require that all the messages being aggregated are distinct.
+This can be easily enforced by always prepending the public key
+to every message prior to signing. 
+However, because now all messages are distinct, we cannot take
+advantage of the efficiency improvement in \eqref{eq:aggsame}
+that apply when aggregating signatures on a common message $m$. 
+</li>
+</ul>
+
+<p>
+<b>This work.</b>
+In this short note we propose a third defense against
+the rogue public-key attack that retains
+the benefits of both defenses above, without the drawbacks.
+The scheme supports fast verification as in \eqref{eq:aggsame}
+and does not require users to prove knowledge of their secret key. 
+Our construction is based on the approach developed 
+in [<a class='cite' href='#BN06'>BN06</a>] and [<a class='cite' href='#MPSW18'>MPSW18</a>] for securing Schnorr multi-signatures.
+</p>
+
+<p>
+We first describe the scheme and then describe its applications
+and security proof.
+</p>
+
+
+
+<h2>2. The modified BLS multi-signature construction</h2>
+
+<p>
+As in BLS, the scheme needs a bilinear pairing 
+$e:\G_0 \times \G_1 \to \G_T$
+and a hash function $\Hm: \MM \to \G_0$.
+We will also need a second hash function $\Hpk$:
+\[ \Hpk: \G_1^n \to R^n \qquad\text{where}\qquad
+   R \deq \{1,2,\ldots,2^{128}\}  \]
+and where $1 \le n \le \tilde{N}$.
+The security analysis will treat $\Hm$ and $\Hpk$ as random oracles. 
+With these ingredients, the modified BLS multi-signature 
+scheme works as follows:
+</p>
+
+<ul>
+<li>
+$\textbf{KeyGen}()$:
+as in BLS, choose a random $\alpha \rgets \Z_q$ and set $h \gets g_1^\alpha$.
+output $\PK \deq (h)$ and $\SK \deq (\alpha)$.
+</li>
+
+<li style="margin-top:1em">
+$\textbf{Sign}(\SK, m)$:
+as in BLS, output $\sigma \gets \Hm(m)^\alpha \in \G_0$.
+</li>
+
+<li style="margin-top:1em">
+$\textbf{Aggregate}\Big((\PK_1, \sigma_1),\ldots,(\PK_n, \sigma_n)\Big)$:
+<ol>
+<li class="algbullet"> compute $(t_1,\ldots,t_n) \gets \Hpk(\PK_1,\ldots,\PK_n) \in R^n$.</li>
+<li class="algbullet"> output the multi-signature $\sigma \gets \sigma_1^{t_1} \cdots \sigma_n^{t_n} \in \G_0$.</li>
+</ol>
+</li>
+
+<li style="margin-top:1em">
+$\textbf{Verify}\big(\PK_1,\ldots,\PK_n,\ m,\ \sigma\big)$:
+to verify a multi-signature $\sigma$ on $m$ do
+<ol>
+<li class="algbullet"> compute $(t_1,\ldots,t_n) \gets \Hpk(\PK_1,\ldots,\PK_n) \in R^n$.</li>
+<li class="algbullet"> compute the aggregate public key $\APK \gets \PK_1^{t_1} \cdots \PK_n^{t_n} \in \G_1$.</li>
+<li class="algbullet"> if $e(g_1,\sigma) = e(\APK,\Hm(m))$ output "accept",
+otherwise output "reject".</li>
+</ol>
+<p style="margin-top:0.2em">
+Verification always requires two pairings, independent of $n$.
+</p>
+</li>
+</ul>
+<p>
+Notice that the aggregate public key $\APK$ 
+can be computed in step (2) of Verify
+before the message $m$ is known.
+In particular, verifying the multi-signature $\sigma$ is the same as
+verifying that $\sigma$ is a standard BLS signature on $m$ with respect to
+the aggregated public key $\APK$.  
+Once $\APK$ is computed, there is no need to provide the verifier
+with the underlying public keys $\PK_1,\ldots,\PK_n$. 
+This mechanism is called <i>public key aggregation</i>.
+We prove security of this scheme in Section 3. 
+</p>
+
+<p style="margin-bottom:0em">
+<b>Batch verification.</b>
+A set of $b$ multi-signatures can be verified as a batch faster than
+verifying them one by one. 
+To see how, suppose we are given triples $(m_i, \sigma_i, \APK_i)$
+for $i=1,\ldots,b$, where $\APK_i$ is the aggregated
+public-key used to verify the multi-signature $\sigma_i$ on $m_i$. 
+If all the messages $m_1,\ldots,m_b$ are distinct then we
+can use signature aggregation as in \eqref{eq:agg}
+to verify all these triples as a batch:
+</p>
+<ol style="margin:0.5em 0em">
+<li class="algbullet">
+Compute an aggregate signature
+$\tilde{\sigma} = \sigma_1 \cdots \sigma_b \in \G_1$,
+</li>
+
+<li class="algbullet">
+Accept all $b$ multi-signature tuples as valid iff
+$\ \   e(g_1, \tilde{\sigma}) = e\big(\APK_1,\Hm(m_1)\big) \cdots e\big(\APK_b,\Hm(m_b)\big). $
+</li>
+</ol>
+<p style="margin-top:0em">
+This way, verifying the $b$ multi-signatures requires only $b+1$ pairings
+instead of $2b$ pairings to verify them one by one.  
+We stress that this simple batching procedure can only be used when
+all the messages $m_1,\ldots,m_b$ are distinct.  
+If some messages are repeated then batch verification can be done by 
+first choosing random $\rho_1,\ldots,\rho_b \rgets \{1,\ldots,2^{64}\}$,
+computing 
+$\tilde{\sigma} = \sigma_1^{\rho_1} \cdots \sigma_b^{\rho_b} \in \G_1$,
+and checking that 
+\[   e(g_1, \tilde{\sigma}) = e\big(\APK_1^{\rho_1},\Hm(m_1)\big) \cdots e\big(\APK_b^{\rho_b},\Hm(m_b)\big).  \]
+Of course the pairings on the right hand side can be coalesced for repeated
+messages. 
+</p>
+
+<p>
+<b>Comparison to Schnorr multi-signatures.</b>
+Schnorr signatures support multi-signatures [<a class='cite' href='#IN83'>IN83</a>, <a class='cite' href='#MOR01'>MOR01</a>, <a class='cite' href='#BN06'>BN06</a>, <a class='cite' href='#MPSW18'>MPSW18</a>],
+however, aggregation can only take place at the time of signing
+and requires a multi-round protocol between the signers. 
+In BLS, aggregation can take place publicly by a simple multiplication,
+even long after all the signatures
+have been generated and the signers are no longer available. 
+</p>
+
+
+<h3>2.1 Application to crypto currencies such as Bitcoin</h3>
+
+Maxwell et al. [<a class='cite' href='#MPSW18'>MPSW18</a>] 
+describe a number of important applications
+for multi-signatures to crypto currencies such as Bitcoin. 
+<ul>
+<li>
+<b>Multisig addresses.</b>
+In current Bitcoin, to spend from a $t$-of-$n$ multisig address 
+one must list all $n$ public keys and $t$ signatures in the spending 
+transaction.
+Usually all $t$ signatures are computed over a common message, 
+namely the spending transaction data. 
+When using BLS multi-signatures, anyone can aggregate all $t$
+signatures into a single aggregate signature and shrink the
+spending transaction size.  
+If a user does not aggregate the signatures, the miner mining the
+transaction can do it on their behalf. 
+
+<p class="algbullet">
+Moreover, in the case of $n$-of-$n$ multisig, one can further aggregate
+all $n$ public keys into a single aggregate public key that is
+used to derive the multisig address.  
+When spending from the address, one need only specify the 
+aggregate public key, which further shrinks the transaction size. 
+</p>
+
+<p class="algbullet">
+For $t$-of-$n$ multisig, where ${n \choose t}$ is of moderate size,
+one can generate a Merkle tree from all ${n \choose t}$ aggregate public keys,
+and derive the multisig address from the short Merkle root.
+When spending from the multisig address, 
+one provides a single aggregate signature,
+along with the single aggregate public key $\APK$ of the $t$ signers,
+and the Merkle proof for this $\APK$. 
+In the <a href="https://eprint.iacr.org/2018/483.pdf">full paper</a> 
+(Section 4.2)
+we present a construction that can handle $t$-of-$n$ multisig 
+even when ${n \choose t}$ is large.
+</p>
+</li>
+
+<li style="margin-top:1em">
+<b>Multi-input transactions.</b>
+For transactions that have multiple inputs, one currently includes
+all the signatures in the transaction.  One can set things
+up so that all signatures
+are computed over the same message, namely the transaction data
+(see [<a class='cite' href='#MPSW18'>MPSW18</a>] for the details).
+When using BLS multi-signatures, anyone can aggregate all these
+signatures into a single multi-signature. 
+If the user does not aggregate, the miner who mines the transaction
+can do it for her.
+This may be convenient when constructing a CoinJoin transaction.  
+ </li>
+</ul>
+
+<p>
+In all cases above, miners can choose to further aggregate signatures
+across different transactions using the standard BLS signature aggregation
+mechanism in \eqref{eq:agg}.  
+This will further shrink the block size. 
+</p>
+
+<p>
+<b>Compatibility with transaction validation caching.</b>
+Recall that transaction validation caching is a process whereby
+a node validates transactions as they are added to the node's mempool
+and marks them as validated.  
+When a previously validated transaction appears in a new block,
+the node need not re-validate the transaction. 
+Transaction validation caching is compatible with signature
+aggregation across multiple transactions in a block.  
+To see why, consider a node that receives a new block containing an
+aggregate signature $\sigma = \sigma_1 \cdots \sigma_n$,
+aggregated over $n$ transactions in the block.  
+The node can identify all the transactions in this new block
+that are already marked as validated in its mempool, and 
+divide $\sigma$ by the signatures associated with these 
+pre-validated transactions.
+Effectively, the pre-validated signatures are removed from the
+aggregate signature $\sigma$.   
+Let $\sigma'$ be the resulting aggregate signature.
+Now the node need only check that $\sigma'$ is a valid
+aggregate signature over the remaining transactions in the block, 
+namely those transactions that are not already in its mempool.
+</p>
+
+
+<h2>3. Proving security</h2>
+
+<p>
+Security for a multi-signature scheme is defined using 
+the following game between a challenger and an adversary $\adv$.
+</p>
+<ol>
+<li class="algbullet"> <b>Setup</b>. 
+The challenger runs KeyGen to generate
+a key pair $\PK, \SK$ and sends $\PK$ to the adversary. </li>
+
+<li class="algbullet"> <b>Signature queries</b>. 
+The adversary issues adaptive chosen message queries
+$m_1, m_2, \ldots \in \MM$ and receives back the
+signatures $\sigma_i = \text{Sign}(\SK,m_i)$ for $i=1,2,\ldots$
+from the challenger. </li>
+
+<li class="algbullet"> <b>Forgery</b>.
+Eventually, the adversary outputs a forgery:
+it outputs public keys $\PK_1,\ldots,\PK_n$, a message $m \in \MM$,
+and a multi-signature $\sigma$. </li>
+</ol>
+<p style="margin-top:0em">
+The adversary wins the game if 
+it did not issue a signature query for $m$ and 
+$\text{Verify}(\PK, \PK_1,\ldots,\PK_n, m, \sigma)$ outputs "accept".
+We could allow the challenge $\PK$ to appear anywhere in the tuple of
+public keys given to $\text{Verify}$, 
+but to simplify the notation we require that it be the left most element. 
+The same analysis applies if we allow $\PK$ to appear elsewhere.
+We use
+\[  \text{SIGadv}[\adv, {\cal S};\ \qsig, \qHm, \qHpk]  \]
+to denote the adversary's advantage in attacking the scheme ${\cal S}$,
+for an adversary that makes 
+at most $\qsig$ signature queries,
+at most $\qHm$ queries to $\Hm$, and
+at most $\qHpk$ queries to $\Hpk$.
+We say that the scheme ${\cal S}$ is secure if for all efficient adversaries 
+the advantage is negligible.
+</p>
+
+<p>
+<b>The co-CDH assumption</b>.
+Security of the scheme ${\cal S}$ from Section 2 
+relies on the standard co-CDH assumption in the 
+bilinear group $(\G_0,\G_1)$.
+The assumption states that for all efficient algorithms $\adv$ 
+the quantity
+\[  \text{CDHadv}[\adv, (\G_0,\G_1)] \deq
+	\Pr\Big[ \adv(g_1^\alpha,\ g_0^\beta,\ g_0^\alpha) = g_0^{\alpha \beta} \Big]
+        
+\]
+is negligible, where $\alpha, \beta \rgets \Z_q$. 
+</p>
+
+
+
+<h3>3.1 Proving security of multi-sig BLS</h3>
+
+<p>We prove security of the scheme ${\cal S}$ from Section 2 without
+requiring signers to prove knowledge of their secret key.
+We will prove security of a slightly modified scheme ${\cal S}'$.
+The only difference is that there is an additional element in the public key.
+Specifically, key generation in ${\cal S}'$ outputs
+$\PK = (g_1^\alpha, g_0^\alpha)$.  
+However, in the security game, when the adversary outputs the
+final forgery, which includes a list of public keys,
+it only needs to output the left term of each public key, 
+as when attacking ${\cal S}$. 
+Clearly if ${\cal S}'$ is secure then so is ${\cal S}$. 
+</p>
+
+<p style="margin-bottom:0px">
+The proof is done in three short steps, captured in the following
+three theorems:
+</p>
+<ol style="margin:0px">
+<li class="algbullet">We show that a general attacker $\adv_1$ on ${\cal S}'$ gives
+an attacker $\adv_2$ on ${\cal S}'$ that makes no chosen message queries.</li>
+
+<li class="algbullet">we show that an attacker $\adv_2$ on ${\cal S}'$ that makes no chosen
+message queries but potentially many queries to $\Hpk$, gives
+an attacker $\adv_3$ on ${\cal S}'$ that makes only one query to $\Hpk$.</li>
+
+<li class="algbullet">we show than an attacker $\adv_3$ on ${\cal S}'$ that makes no chosen
+message queries and only one query to $\Hpk$, can be used to break co-CDH.</li>
+</ol>
+<p style="margin-top:0.4em">
+Putting these three steps together proves security of ${\cal S}'$ 
+and therefore of ${\cal S}$.  The third step is the most interesting
+so we present that step first, then the second step, and finally
+the general result in the first step. 
+</p>
+
+<div class="theorem">
+<p>
+<b>Theorem 1:</b>
+Let $\adv$ be an adversary attacking ${\cal S}'$ 
+that makes no chosen message queries and at most one query to $\Hpk$.
+Let 
+\[  \epsilon = \text{SIGadv}[\adv, {\cal S}';\ 0, \qHm, 1] \]
+be its advantage.
+Then there exists an adversary $\bdv$ for computing co-CDH,
+whose running time is about twice that of $\adv$, 
+with advantage $\epsilon' = \text{CDHadv}[\bdv, (\G_0,\G_1)]$
+such that
+\[   \epsilon' \geq \epsilon^2 - \epsilon/N.  \]
+Here $N = \abs{R}$, the size of one coordinate in the image of $\Hpk$.
+This implies
+\[   \epsilon \leq (1/N) + \sqrt{\epsilon'}.   \]
+</p>
+</div>
+<p style="margin-bottom:0px">
+<b>Proof.</b>
+Algorithm $\bdv$ is a given a co-CDH instance 
+$(h = g_1^\alpha,\ u = g_0^\beta,\ \hat{h} = g_0^\alpha) \in \G_1 \times G_0^2$.
+It needs to compute $g_0^{\alpha \beta}$. 
+Algorithm $\bdv$ runs $\adv$ and gives it the public key $\PK = (h,\hat{h})$.
+Now $\adv$ can issue many queries to $\Hm$ and a single query to $\Hpk$.
+For $i=1,2,\ldots$ algorithm $\bdv$ responds to query number $i$ as follows:
+</p>
+<ul style="margin:0px">
+<li class="algbullet">
+$\bdv$ responds to a query for $\Hm(m_i)$, where $m_i \in \MM$, 
+by choosing a random $\rho_i \rgets \Z_q$
+and setting $\Hm(m_i) \gets u^{\rho_i}$. </li>
+
+<li class="algbullet">
+$\bdv$ responds to a (single) query for $\Hpk(h_0,h_1,\ldots,h_n)$,
+where $(h_0, \ldots, h_n) \in G_1^{n+1}$,
+by choosing a random $(t_0, \ldots, t_n) \rgets R^{n+1}$ and
+setting $\Hpk(h_0,h_1,\ldots,h_n) \gets (t_0,\ldots,t_n)$.</li>
+</ul>
+<p>
+Suppose that eventually $\adv$ outputs a valid forgery.
+We can assume that the public keys in the forgery are the public keys
+in the query to $\Hpk$, since otherwise the forgery cannot be valid. 
+In other words, the forgery is a tuple $(h_1,\ldots,h_n,m,\sigma)$
+such that
+\[ e(g_1,\sigma) = e\left(h^{t_0} h_1^{t_1} \cdots h_n^{t_n},\ \Hm(m) \right). \]
+Moreover, $\bdv$ knows a $\rho \in \Z_q$ such that $\Hm(m) = u^\rho$
+and therefore
+\begin{equation} \label{eq:forge1}
+ e(g_1,\sigma) = e\left(h^{t_0} h_1^{t_1} \cdots h_n^{t_n},\ u^\rho \right)
+   = e(h,u)^{t_0 \rho} \cdot e\left(h_1^{t_1} \cdots h_n^{t_n},\ u \right)^\rho. 
+\end{equation}
+</p>
+
+<p>
+Next, $\bdv$ rewinds $\adv$ to the point where it issued the query to 
+$\Hpk(h, h_1, \ldots, h_n)$.  
+This time algorithm $\bdv$ responds by choosing a fresh $t_0' \rgets R$ 
+and sets
+\[  \Hpk(h,h_1,\ldots,h_n) \gets (t_0',t_1,\ldots,t_n).  \]
+Suppose that again $\adv$ outputs a valid forgery $(h_1,\ldots,h_n,m',\sigma')$.
+As before, $\bdv$ has $\rho' \in \Z_q$ such that $\Hm(m') = u^{\rho'}$
+and
+\begin{equation} \label{eq:forge2}
+e(g_1,\sigma') = e\left(h^{t_0'} h_1^{t_1} \cdots h_n^{t_n},\ u^{\rho'} \right) =
+e(h,u)^{t_0 \rho'} \cdot e\left(h_1^{t_1} \cdots h_n^{t_n},\ u \right)^{\rho'}.
+\end{equation}
+</p>
+
+<p>
+Then raising equation \eqref{eq:forge2} to the power of $\rho$
+and dividing by equation \eqref{eq:forge1} 
+raised to the power of $\rho'$ leads to
+\[ e\left(g_1,\ (\sigma')^\rho/\sigma^{\rho'}\right) = e(h, u)^{\rho \rho' (t_0' - t_0)}.  \]
+Let us assume that $t_0 \neq t_0'$. 
+Now, because $e(h,u) = e(g_1,g_0^{\alpha \beta})$ it follows that 
+\[  g_0^{\alpha \beta} = \left((\sigma')^\rho/\sigma^{\rho'}\right)^{1/\rho \rho' (t_0' - t_0)}.  \]
+which is the solution to the given co-CDH challenge.
+</p>
+
+<p>
+We see that $\bdv$ solves the given co-CDH instance
+whenever $t_0 \neq t_0'$
+and $\adv$ outputs a valid forgery
+in both runs, so that both \eqref{eq:forge1} and \eqref{eq:forge2} hold.
+To calculate the probability that this happens
+we use the following simple lemma, called the <i>rewinding lemma</i>
+(a variant of Lemma 19.2 in the <a href="http://cryptobook.us">cryptography book</a>).
+</p>
+
+<p>
+<b><a href="https://crypto.stanford.edu/~dabo/cryptobook/BonehShoup_0_4.pdf#page=661">Rewinding lemma</a>:</b>
+Let $S, R$, and $T$ be finite, non-empty sets,
+and let $f : S \times R \times T \rightarrow \{ 0, 1\}$ be a function.
+Let $X$ and $Y, Y'$ and $Z, Z'$ be mutually independent random variables,
+where $X$ takes values in the set $S$, 
+the variables $Y$ and $Y'$ are each uniformly distributed over $R$, 
+and $Z$ and $Z'$ take values in the set $T$.
+Let $\epsilon \deq \Pr[f(X,Y,Z) = 1]$ and $N \deq \abs{R}$.
+Then 
+\[
+\Pr\Big[ f(X,Y,Z) = 1 \xwedge f(X,Y',Z') = 1 \xwedge Y \ne Y' \Big] \ge \epsilon^2 - \epsilon/N . 
+\]
+</p>
+
+<p>To apply the lemma, let $X$ be all the quantities
+given to $\adv$ 
+up to and including the query to $\Hpk$ and its response, excluding $t_0$.
+Let $Y$ and $Y'$ be $t_0$ and $t_0'$, respectively.
+Let $Z$ be all the quantities given to $\adv$ 
+in the first run following the query to $\Hpk$.  
+Similarly, let $Z'$ be all the quantities given to $\adv$
+in the second run following the query to $\Hpk$. 
+Then $(X,Y,Z)$ are the random values given to $\adv$ in the first run,
+and $(X,Y',Z')$ are the random values given to $\adv$ in the second run. 
+The function $f(X,Y,Z)$ is $1$ whenever $\adv$ produces a valid forgery
+given the quantities $X,Y,Z.$
+The rewinding lemma now gives the bounds stated in the theorem, 
+and completes the proof. 
+<span style="text-align:right;margin-left:2em">&#8718;</span>
+</p>
+
+<div class="theorem">
+<p>
+<b>Theorem 2:</b>
+Let $\adv$ be an adversary attacking ${\cal S}'$ 
+that makes no chosen message queries but potentially many
+queries to $\Hpk$. 
+Then there exists an adversary $\bdv$ attacking ${\cal S}'$,
+that makes only a single query to $\Hpk$, and 
+whose running time is about the same as $\adv$, such that
+\[  \text{SIGadv}[\adv, {\cal S}';\ 0, \qHm, \qHpk] \leq
+         \qHpk \cdot \text{SIGadv}[\bdv, {\cal S}';\ 0, \qHm, 1].   \] 
+</p>
+</div>
+<p>
+<b>Proof.</b>
+The proof is a simple guessing argument.  
+Adversary $\bdv$ plays the role of challenger to $\adv$ and interacts
+with its own challenger.  $\bdv$ relays all messages between its 
+challenger and $\adv$.  
+However, $\adv$ can make $\qHpk$ queries to $\Hpk$ whereas $\bdv$
+can only make a single $\Hpk$ query to its challenger.
+To address this, $\bdv$ will answer all of $\adv$'s queries to $\Hpk$ 
+by generating random responses itself. 
+In addition, $\bdv$ will choose one of $\adv$'s queries to $\Hpk$ at random
+and forward it to its own challenger.  
+If $\adv$ uses the arguments of that chosen query in its signature forgery,
+then $\bdv$ succeeds in generating a forgery to its own challenger.
+This happens with probability $1/\qHpk$, and the theorem follows. 
+<span style="text-align:right;margin-left:2em">&#8718;</span>
+</p>
+
+
+<div class="theorem">
+<p>
+<b>Theorem 3:</b>
+Let $\adv$ be an adversary attacking ${\cal S}'$.
+Then there exists an adversary $\bdv$ attacking ${\cal S}'$,
+that makes no chosen message queries and
+whose running time is about the same as $\adv$, such that
+\begin{equation} \label{eq:final}
+  \text{SIGadv}[\adv, {\cal S}';\ \qsig, \qHm, \qHpk] \leq
+         (e \cdot \qsig) \cdot \text{SIGadv}[\bdv, {\cal S}';\ 0, \qHm, \qHpk]   \end{equation} 
+where $e \approx 2.71$.
+</p>
+</div>
+
+<p>
+<b>Proof.</b>
+Adversary $\bdv$ plays the role of challenger to $\adv$ and interacts
+with its own challenger.  
+First, $\bdv$ receives a 
+public key $\PK = \big(h = g_1^\alpha,\ \hat{h} = g_0^\alpha\big)$ 
+from its challenger,
+which it forwards to $\adv$. 
+Now, $\adv$ issues queries and $\bdv$ responds.
+For $i=1,2,\ldots$, adversary $\bdv$ responds 
+to query number $i$ from $\adv$ as 
+follows:
+</p>
+<ul>
+<li class="algbullet"> 
+if the query is to $\Hpk$ then $\bdv$ forwards the query to its
+challenger and forwards the response to $\adv$.</li>
+
+<li class="algbullet"> 
+if the query is for $\Hm(m_i)$ then $\bdv$ does the following:
+<ol>
+<li class="algbullet">
+$\bdv$ generates a biased bit $b_i \in \{0,1\}$ where
+$\Pr[b_i = 1] = 1/\qsig$.</li>
+
+<li class="algbullet">
+if $b_i = 1$ then $\bdv$ forwards the query to its
+challenger and sends the response $\Hm(m_i)$ to $\adv$.</li>
+
+<li class="algbullet">
+if $b_i = 0$ then $\bdv$ responds 
+by choosing a random $\rho_i \rgets \Z_q$
+and responding to $\adv$ by setting $\Hm(m_i) \gets g_0^{\rho_i}$. </li>
+</ol>
+</li>
+
+<li class="algbullet"> 
+if the query is a chosen message query for message $m_i \in \MM$,
+we may assume without loss of generality that $\adv$ had already issued
+a query for $\Hm(m_i)$ in some previous query $j \lt i$.
+If $b_j = 1$ then $\bdv$ aborts and outputs "fail".
+Otherwise, we know that $\Hm(m_i) = g_0^{\rho_j}$
+and $\bdv$ responds with the signature $\sigma_i = \hat{h}^{\rho_j}$,
+which is a valid signature on $m_i$.  
+This step is the reason we need $\hat{h}$ in the public key. 
+</ul>
+
+<p>
+Suppose that $\bdv$ does not abort and that $\adv$
+eventually outputs a valid forgery $(h_1, \ldots, h_n, m, \sigma)$.
+The adversary must have issued a query for $\Hm(m)$,
+say query number $j$. 
+If $b_j = 0$ then $\bdv$ aborts and outputs "fail".
+Otherwise, $\bdv$ outputs $(h_1, \ldots, h_n, m, \sigma)$ as a valid forgery.
+</p>
+
+<p>
+$\bdv$ successfully answers all signature queries
+with probability $(1 - 1/\qsig)^{\qsig} \geq 1/e$.
+Yet $\bdv$ never issued a chosen message query to its own challenger, 
+as required.
+The final forgery will be accepted by $\bdv$ with probability $1/\qsig$.
+Hence, $\bdv$ will output a forgery with probability at least $1/(e \qsig)$.
+Moreover, when $\bdv$ outputs a forgery, the forgery is valid
+with respect to the challenger's definition of $\Hm$ with 
+exactly $\adv$'s forging advantage.  
+Hence, 
+\[   
+  \text{SIGadv}[\bdv, {\cal S}';\ 0, \qHm, \qHpk] \geq
+         (1/e \cdot \qsig) \cdot \text{SIGadv}[\adv, {\cal S}';\ \qsig, \qHm, \qHpk]  
+\]
+from which the theorem follows. 
+<span style="text-align:right;margin-left:2em">&#8718;</span>
+</p>
+
+<p>
+<b>Putting it all together.</b>
+Putting Theorems 1,2,3 together proves security of ${\cal S}'$,
+and therefore ${\cal S}$,
+assuming the co-CDH assumption holds in the bilinear group $(\G_0,\G_1)$. 
+Concretely, we obtain the following corollary.
+</p>
+
+<div class="theorem">
+<p>
+<b>Corollary:</b>
+For every adversary $\adv$ attacking ${\cal S}$ there is a co-CDH 
+algorithm $\bdv$, whose running time is about twice that of $\adv$,
+such that 
+\[   \text{SIGadv}[\adv, {\cal S}';\ \qsig, \qHm, \qHpk] \leq
+          (e \qsig \qHpk) \cdot \sqrt{\epsilon} +
+          (e \qsig \qHpk)/N
+\]
+where $N = \abs{R}$ and $\epsilon = \text{CDHadv}[\adv, (\G_0,\G_1)]$.
+</p>
+</div>
+
+<h2>4. Concluding remarks</h2>
+
+<p>
+We presented a modified same-message aggregation mechanism for BLS signatures
+that supports efficient verification, requiring only two pairings
+to verify a multi-signature.  
+The point is that security holds without requiring 
+proofs of knowledge of the secret key.  
+</p>
+
+<p>
+We conclude with the following remark: the proof of security for
+BLS aggregation for <i>distinct</i> messages makes use of an isomorphism
+$\psi: \G_1 \to \G_0$.  While in many pairing instantiations this
+$\psi$ exists naturally, in some instantiations it does not.  When
+$\psi$ does not exist, the proof of security still applies, but
+relative to a slightly stronger assumption than co-CDH.  Specifically,
+we need co-CDH to hold even if the adversary has access to an oracle
+for $\psi$.  We call this the $\psi$-co-CDH assumption, and it appears
+to hold whenever co-CDH holds.  Hence, BLS aggregation for
+distinct messages can be safely used even when there is no efficient algorithm
+to compute $\psi$.  We note that the security proof in this writeup
+does not make use of $\psi$, and therefore this issue does not come up. 
+</p>
+
+
+
+
+<h2>Bibliography</h2>
+
+<table>
+<tr id='BLS01'>
+<td>[BLS01]</td>
+<td> Dan Boneh, Ben Lynn, Hovav Shacham.
+Short Signatures from the Weil Pairing. ASIACRYPT 2001. pages 514-532.
+See also J. Cryptology 17(4): 297-319 (2004).</td>
+</tr>
+
+<tr id="BGLS01">
+<td>[BGLS03]</td>
+<td> Dan Boneh, Craig Gentry, Ben Lynn, and Hovav Shacham. Aggregate
+and Verifiably Encrypted Signatures from Bilinear Maps. In Eli Biham,
+editor, Advances in Cryptology - EUROCRYPT 2003, volume 2656 of
+LNCS, pages 416–432. Springer, 2003.</td>
+</tr>
+
+<tr id="BN06">
+<td>[BN06]</td>
+<td> Mihir Bellare and Gregory Neven. Multi-Signatures in the Plain Public Key
+Model and a General Forking Lemma. In Ari Juels, Rebecca N.
+Wright, and Sabrina De Capitani di Vimercati, editors, ACM Conference
+on Computer and Communications Security - CCS 2006, pages 390–399.
+ACM, 2006.</td>
+</tr>
+
+<tr id="BNN07">
+<td>[BNN07]</td>
+<td> Mihir Bellare, Chanathip Namprempre, and Gregory Neven. Unrestricted
+Aggregate Signatures. In Lars Arge, Christian Cachin, Tomasz Jurdzinski,
+and Andrzej Tarlecki, editors, Automata, Languages and Programming -
+ICALP 2007, volume 4596 of LNCS, pages 411–422. Springer, 2007</td>
+</tr>
+
+<tr id="Bol03">
+<td>[Bol03]</td>
+<td> Alexandra Boldyreva. Threshold Signatures, Multisignatures and Blind
+Signatures Based on the Gap-Diffie-Hellman-Group Signature Scheme. In
+Yvo Desmedt, editor, Public Key Cryptography - PKC 2003, volume 2567
+of LNCS, pages 31–46. Springer, 2003.</td>
+</tr>
+
+<tr id="IN83">
+<td>[IN83]</td>
+<td> K. Itakura and K. Nakamura. A public-key cryptosystem suitable for
+digital multisignatures. NEC Research and Development, 71:1–8, 1983.</td>
+</tr>
+
+<tr id="LOS06">
+<td>[LOS06]</td>
+<td> Steve Lu, Rafail Ostrovsky, Amit Sahai, Hovav Shacham, and Brent
+Waters. Sequential Aggregate Signatures and Multisignatures Without
+Random Oracles. In Serge Vaudenay, editor, Advances in Cryptology -
+EUROCRYPT 2006, volume 4004 of LNCS, pages 465–485. Springer, 2006.</td>
+</tr>
+
+<tr id="MPSW18">
+<td>[MPSW18]</td>
+<td>Gregory Maxwell, Andrew Poelstra, Yannick Seurin, Pieter Wuille.
+Simple Schnorr Multi-Signatures with Applications to Bitcoin.
+Cryptology ePrint Archive, Report 2018/068, 2018.<td>
+</tr>
+
+<tr id="MOR01">
+<td>[MOR01]</td>
+<td> Silvio Micali, Kazuo Ohta, and Leonid Reyzin. Accountable-Subgroup
+Multisignatures. In Michael K. Reiter and Pierangela Samarati, editors,
+ACM Conference on Computer and Communications Security - CCS 2001,
+pages 245–254. ACM, 2001.</td>
+</tr>
+
+<tr id="RY07">
+<td>[RY07]</td>
+<td> Thomas Ristenpart and Scott Yilek. The Power of Proofs-of-Possession:
+Securing Multiparty Signatures against Rogue-Key Attacks. In Moni Naor,
+editor, Advances in Cryptology - EUROCRYPT 2007, volume 4515 of
+LNCS, pages 228–245. Springer, 2007.</td>
+</tr>
+</table>
+
+</div>
+<hr class="bottomrule">
+
+<p class="nav">
+<a href="http://www.cs.stanford.edu/~dabo/">Dan's home page</a>, &nbsp;&nbsp;
+<a href="http://www.cs.stanford.edu/">CS Department</a>, &nbsp;&nbsp;
+<a href="http://www.stanford.edu">Stanford University</a>
+</p>
+</div>
+</div>
+
+</body>
+</html>
+
+
+

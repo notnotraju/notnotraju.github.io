@@ -1,533 +1,84 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html><head>
-    
-     <style type="text/css">
-　　 <!--
-　　 a:link { text-decoration: none;color: blue}
-　　 a:active { text-decoration:blink}
-　　 a:hover { text-decoration:underline;color: blue} 
-　　 a:visited { text-decoration: none;color: green}
-
-　　 -－> 
-　　 </style>
-
-<title>Seminar on flat connections in positive and mixed characteristic</title>
-<!-- link to main stylesheet -->
-    <link rel="stylesheet" type="text/css" href="../../main.css">
-    
-    <style>
-	 
-p.a {
-    font-style: normal;
-}
-
-p.b {
-    font-style: italic;
-}
-
-p.c {
-    font-style: oblique;
-}
-</style>
-
-<style>
-  .visi1 { visibility:"visible" }
-  .visi2 { visibility:"hidden" }
-  .disp1 { display:"block" }
-  .disp2 { display:"none" }
-
-.div_show
-{
-display:block;
-margin-top:5px;
-margin-left:5px;
-margin-bottom:5px;
-margin-right:80px;
-padding:8px;
-background:#EFF5E0;
-border:solid 1px #c3c3c3;
-
-}
-.div_hide
-{
-display:none;
-}
-</style>
-
-<script language="javaScript">
-function showHideText1()
-{
-if (document.getElementById("div_text1").className == "div_hide")
-{
-document.getElementById("div_text1").className = "div_show";
-document.getElementById("my_text1").innerText = "[-]";
-}
-else
-{
-
-document.getElementById("div_text1").className = "div_hide";
-document.getElementById("my_text1").innerText = "[+]";
-}
-}
-</script>
-
-<script language="javaScript">
-function showHideText2()
-{
-if (document.getElementById("div_text2").className == "div_hide")
-{
-document.getElementById("div_text2").className = "div_show";
-document.getElementById("my_text2").innerText = "[-]";
-}
-else
-{
-
-document.getElementById("div_text2").className = "div_hide";
-document.getElementById("my_text2").innerText = "[+]";
-}
-}
-</script>
-
-<script language="javaScript">
-function showHideText3()
-{
-if (document.getElementById("div_text3").className == "div_hide")
-{
-document.getElementById("div_text3").className = "div_show";
-document.getElementById("my_text3").innerText = "[-]";
-}
-else
-{
-
-document.getElementById("div_text3").className = "div_hide";
-document.getElementById("my_text3").innerText = "[+]";
-}
-}
-</script>
-
-<script language="javaScript">
-function showHideText4()
-{
-if (document.getElementById("div_text4").className == "div_hide")
-{
-document.getElementById("div_text4").className = "div_show";
-document.getElementById("my_text4").innerText = "[-]";
-}
-else
-{
-
-document.getElementById("div_text4").className = "div_hide";
-document.getElementById("my_text4").innerText = "[+]";
-}
-}
-</script>
-
-<script language="javaScript">
-function showHideText5()
-{
-if (document.getElementById("div_text5").className == "div_hide")
-{
-document.getElementById("div_text5").className = "div_show";
-document.getElementById("my_text5").innerText = "[-]";
-}
-else
-{
-
-document.getElementById("div_text5").className = "div_hide";
-document.getElementById("my_text5").innerText = "[+]";
-}
-}
-</script>
-
-<script language="javaScript">
-function showHideText6()
-{
-if (document.getElementById("div_text6").className == "div_hide")
-{
-document.getElementById("div_text6").className = "div_show";
-document.getElementById("my_text6").innerText = "[-]";
-}
-else
-{
-
-document.getElementById("div_text6").className = "div_hide";
-document.getElementById("my_text6").innerText = "[+]";
-}
-}
-</script>
-
-<script language="javaScript">
-function showHideText7()
-{
-if (document.getElementById("div_text7").className == "div_hide")
-{
-document.getElementById("div_text7").className = "div_show";
-document.getElementById("my_text7").innerText = "[-]";
-}
-else
-{
-
-document.getElementById("div_text7").className = "div_hide";
-document.getElementById("my_text7").innerText = "[+]";
-}
-}
-</script>
-
-<script language="javaScript">
-function showHideText8()
-{
-if (document.getElementById("div_text8").className == "div_hide")
-{
-document.getElementById("div_text8").className = "div_show";
-document.getElementById("my_text8").innerText = "[-]";
-}
-else
-{
-
-document.getElementById("div_text8").className = "div_hide";
-document.getElementById("my_text8").innerText = "[+]";
-}
-}
-</script>
-
-<script language="javaScript">
-function showHideText9()
-{
-if (document.getElementById("div_text9").className == "div_hide")
-{
-document.getElementById("div_text9").className = "div_show";
-document.getElementById("my_text9").innerText = "[-]";
-}
-else
-{
-
-document.getElementById("div_text9").className = "div_hide";
-document.getElementById("my_text9").innerText = "[+]";
-}
-}
-</script>
-
-<script language="javaScript">
-function showHideText10()
-{
-if (document.getElementById("div_text10").className == "div_hide")
-{
-document.getElementById("div_text10").className = "div_show";
-document.getElementById("my_text10").innerText = "[-]";
-}
-else
-{
-
-document.getElementById("div_text10").className = "div_hide";
-document.getElementById("my_text10").innerText = "[+]";
-}
-}
-</script>
-
-
-<script language="javaScript">
-function showHideText11()
-{
-if (document.getElementById("div_text11").className == "div_hide")
-{
-document.getElementById("div_text11").className = "div_show";
-document.getElementById("my_text11").innerText = "[-]";
-}
-else
-{
-
-document.getElementById("div_text11").className = "div_hide";
-document.getElementById("my_text11").innerText = "[+]";
-}
-}
-</script>
-
-
-<script language="javaScript">
-function showHideText12()
-{
-if (document.getElementById("div_text12").className == "div_hide")
-{
-document.getElementById("div_text12").className = "div_show";
-document.getElementById("my_text12").innerText = "[-]";
-}
-else
-{
-
-document.getElementById("div_text12").className = "div_hide";
-document.getElementById("my_text12").innerText = "[+]";
-}
-}
-</script>
-
-
-<script language="javaScript">
-function showHideText13()
-{
-if (document.getElementById("div_text13").className == "div_hide")
-{
-document.getElementById("div_text13").className = "div_show";
-document.getElementById("my_text13").innerText = "[-]";
-}
-else
-{
-
-document.getElementById("div_text13").className = "div_hide";
-document.getElementById("my_text13").innerText = "[+]";
-}
-}
-</script>
-  
-<script language="javaScript">
-function showHideText14()
-{
-if (document.getElementById("div_text14").className == "div_hide")
-{
-document.getElementById("div_text14").className = "div_show";
-document.getElementById("my_text14").innerText = "[-]";
-}
-else
-{
-
-document.getElementById("div_text14").className = "div_hide";
-document.getElementById("my_text14").innerText = "[+]";
-}
-}
-</script>
-    
-      
-<script language="javaScript">
-function showHideText15()
-{
-if (document.getElementById("div_text15").className == "div_hide")
-{
-document.getElementById("div_text15").className = "div_show";
-document.getElementById("my_text15").innerText = "[-]";
-}
-else
-{
-
-document.getElementById("div_text15").className = "div_hide";
-document.getElementById("my_text15").innerText = "[+]";
-}
-}
-</script>
-
-<!--
-function toggle(abs_tr) {
-  var e = document.getElementById('abs-'+abs_tr);
-  document.status = e.style.display;
-  if(e.style.display == 'none') {
-    e.style.display = 'table-row';
-  } else {
-    e.style.display = 'none';
-  }
-}
-//-->
-
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Raju Krishnamoorthy - Flat Connections Seminar</title>
+  <link rel="stylesheet" href="../../main.css">
 </head>
+<body>
+  <main class="site">
+    <header class="site-header">
+      <div class="brand">
+        <div>
+          <h1>Flat Connections in Positive and Mixed Characteristic</h1>
+          <p class="subtitle">A seminar on p-curvature, mod p nonabelian Hodge theory, and F-isocrystals</p>
+        </div>
+      </div>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="../../index.html">Home</a>
+        <a href="../../math_research/math_research.html">Publications</a>
+        <a href="../teaching.html">Teaching and events</a>
+        <a href="../../Professional_CV.pdf">Resume</a>
+      </nav>
+    </header>
 
+    <section>
+      <h2>Goal</h2>
+      <p>
+        The goal of this seminar was to study flat connections in positive and mixed characteristic, with a central aim
+        of understanding recent work of <a href="https://arxiv.org/abs/1707.00752">Esnault-Groechenig</a>. We surveyed
+        p-curvature, mod p nonabelian Hodge theory, the Hitchin fibration, crystals, and isocrystals. The preliminary
+        program is available as <a href="MIC_seminar.pdf">a PDF</a>.
+      </p>
+    </section>
 
+    <section>
+      <h2>Schedule</h2>
+      <table class="schedule">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Speaker</th>
+            <th>Topic</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>April 24</td><td>Raju</td><td>Introduction to flat connections, peculiarities in positive characteristic, and p-curvature</td><td><a href="MIC_lecture1.pdf">Notes</a></td></tr>
+          <tr><td>May 8</td><td>Raju</td><td>The ring of crystalline differential operators and p-curvature</td><td><a href="p_curvature_small.pdf">Notes</a></td></tr>
+          <tr><td>May 10</td><td>Raju</td><td>p-curvature continued</td><td><a href="summary_p_curvature_small.pdf">Summary</a></td></tr>
+          <tr><td>May 15</td><td>Raju</td><td>Crystals and isocrystals</td><td><a href="crystals_small.pdf">Notes</a></td></tr>
+          <tr><td>May 19</td><td>Raju</td><td>Crystals, continued</td><td><a href="crystals_2_small.pdf">Notes</a></td></tr>
+          <tr><td>May 22</td><td>Paul</td><td>Nonabelian Hodge theory mod p</td><td><a href="NAHT_small.pdf">Notes</a></td></tr>
+          <tr><td>May 25</td><td>Paul</td><td>Nonabelian Hodge theory mod p II</td><td></td></tr>
+          <tr><td>May 30</td><td>Josh</td><td>Properties of nonabelian Hodge theory mod p and periodicity</td><td><a href="stability_small.pdf">Notes</a></td></tr>
+          <tr><td>June 12</td><td>Raju</td><td>The BNR correspondence and its de Rham incarnation in characteristic p</td><td><a href="BNR_small.pdf">Notes</a></td></tr>
+          <tr><td>June 19</td><td>Yichen</td><td>Spreading out and global nilpotence of flat connections</td><td></td></tr>
+          <tr><td>July 3</td><td>Raju</td><td>Global nilpotence and periodicity of rigid flat connections</td><td><a href="globally_nilpotent_small.pdf">Notes</a></td></tr>
+        </tbody>
+      </table>
+    </section>
 
-  <!-- Main body -->
+    <section>
+      <h2>References</h2>
+      <p>The following are orienting references. For complete bibliographic information, see the seminar program.</p>
+      <ul>
+        <li>[EG20] Esnault and Groechenig, <a href="https://arxiv.org/abs/1707.00752">Rigid connections and F-isocrystals</a>.</li>
+        <li>[E22] Esnault, <a href="https://page.mi.fu-berlin.de/esnault/preprints/helene/147_eilenberg.pdf">Lectures on local systems in algebraic-arithmetic geometry</a>.</li>
+        <li>[G15] Groechenig, <a href="https://arxiv.org/abs/1201.0741">Moduli of flat connections in positive characteristic</a>.</li>
+        <li>[K16] Kedlaya, <a href="https://arxiv.org/abs/1606.01321">Notes on isocrystals</a>.</li>
+        <li>[LSZ15] Lan, Sheng, and Zuo, <a href="https://arxiv.org/abs/1312.0393">Nonabelian Hodge theory in positive characteristic via exponential twisting</a>.</li>
+        <li>[LSZ21] Lan, Sheng, and Zuo, <a href="https://arxiv.org/abs/1311.6424">Semistable Higgs bundles, periodic Higgs bundles and representations of algebraic fundamental groups</a>.</li>
+        <li>[OV07] Ogus and Vologodsky, <a href="https://arxiv.org/abs/math/0507476">Nonabelian Hodge theory in characteristic p</a>.</li>
+        <li>[Oss] Osserman, <a href="osserman_connections.pdf">Connections, curvature, and p-curvature</a>.</li>
+        <li>[Yun19] Yun, <a href="https://refubium.fu-berlin.de/handle/fub188/25261">A Simpson correspondence for abelian varieties in positive characteristic</a>.</li>
+      </ul>
+    </section>
 
-<div id="main">
-<!--
-<div id="top-banner">
-  Raju Krishnamoorthy
-</div>--!>
-    <nav class="navbar">
-     <!-- LOGO -->
-     <div class="logo">Raju Krishnamoorthy</div>
-     <!-- NAVIGATION MENU -->
-     <ul class="nav-links">
-       <!-- USING CHECKBOX HACK --><!--
-       <input type="checkbox" id="checkbox_toggle" />
-       <label for="checkbox_toggle" class="hamburger">&#9776;</label>--!>
-       <!-- NAVIGATION MENUS -->
-       <div class="menu">
-<li><a href="../../index.html">Home</a></li>
-         <li><a href="../../math_research/math_research.html">Preprints and publications</a></li>
-	<li><a href="../teaching.html">Teaching and events</a></li>
-       </div>
-     </ul>
-   </nav>
-<h3> Goal </h3>
-
-
-The goal of this seminar is to study flat connections in positive and mixed characteristic. One of the main goals is to  understand spectacular recent work of <a href = "https://arxiv.org/abs/1707.00752">Esnault-Gröchenig</a>. To this end, we will survey the theory of p-curvature, mod p nonabelian Hodge theory, the Hitchin fibration, and (iso)crystals. Time/enthusiasm permitting, we may discuss applications to characteristic 0 algebraic geometry using these techniques, in particular the work of Arapura and Langer. A preliminary program may be found <a href = "MIC_seminar.pdf">here</a>.
-
-
-<h3> Schedule</h3>
-<table border="8" cellpadding="4" cellspacing="2">
-	<tbody>
-
-
-				<tr>
-			<td>
-				April 24 </td>
-			<td>Raju
-</td>
-
-			<td>Introduction to flat connections, peculiarities in positive characteristic, p-curvature
-				</td>
-			<td><a href = "MIC_lecture1.pdf">Notes</a>. </td>
-		</tr>
-<tr>
-			<td>
-				May 8 </td>
-			<td>Raju
-</td>
-
-			<td>the ring of crystalline differential operators and p-curvature
-				</td>
-			<td><a href = "p_curvature_small.pdf">Notes</a>.</td>
-		</tr>
-		<tr>
-			<td>
-				May 10 (online) </td>
-			<td>Raju
-</td>
-
-			<td>p-curvature continued
-				</td>
-			<td>
-			See notes from May 8 for details and <a href = "summary_p_curvature_small.pdf">here</a> for a summary.
-			
-			(<a href = "https://annals.math.princeton.edu/wp-content/uploads/annals-v167-n3-p05.pdf">[p. 949-955, BMR08]</a> and <a href = "https://www.intlpress.com/site/pub/files/_fulltext/journals/mrl/2016/0023/0004/MRL-2016-0023-0004-a003.pdf">[G15]</a> may also be helpful.)
-			</td>
-		</tr>
-				<tr>
-			<td>
-				May 15 </td>
-			<td>Raju
-</td>
-
-			<td>Crystals and Isocrystals
-				</td>
-			<td><a href = "crystals_small.pdf">Notes</a>. The lecture notes <a href = "https://www.math.mcgill.ca/goren/SeminarOnCohomology/Seminairecohomologie.pdf">[MHN]</a> are a well-motivated introduction to some of this material.</td>
-		</tr>
-
-		<tr>
-			<td>
-				May 19 (online) </td>
-			<td>Raju
-</td>
-
-			<td>Crystals, continued
-				</td>
-			<td><a href = "crystals_2_small.pdf">Notes</a>. For a much more complete summary, please see <a href = "https://arxiv.org/abs/1606.01321">[K16]</a>. The article <a href = "https://www.imo.universite-paris-saclay.fr/~luc.illusie/Illusie-Pisa5.pdf">[Ill15]</a> also has helpful comments on the notion of a crystal, the Taylor formula, etc.</td> 
-		</tr>
-		<tr>
-			<td>
-				May 22 </td>
-			<td>Paul
-</td>
-
-			<td>Non-abelian Hodge theory mod p
-				</td>
-
-			<td><a href = "NAHT_small.pdf">Notes</a></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>
-				May 25 (online) </td>
-			<td>Paul
-</td>
-
-			<td>Non-abelian Hodge theory mod p II
-				</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>
-				May 30  </td>
-			<td>Josh
-</td>
-
-			<td>Properties of non-abelian Hodge theory mod p, periodicity
-				</td>
-
-			<td><a href = "stability_small.pdf">Notes</a></td>
-
-			<td></td>
-		</tr>
-				<tr>
-			<td>
-				June 12th  </td>
-			<td>Raju
-</td>
-
-			<td>The BNR correspondence and its de Rham incarnation in characteristic p
-				</td>
-			<td><a href = "BNR_small.pdf">Notes</a></td>
-		</tr>
-			<tr>
-			<td>
-				June 19th  </td>
-			<td>Yichen
-</td>
-
-			<td>Spreading out and global nilpotence of flat connections
-				</td>
-			<td></td>
-		</tr>
-		<tr>
-			<td>
-				July 3rd  </td>
-			<td>Raju
-</td>
-
-			<td>Global nilpotence and periodicity of rigid flat connections
-				</td>
-			<td><a href = "globally_nilpotent_small.pdf">Notes</a></td>
-		</tr>
-
-			
-   </tbody>
-    </table>
-
-<br><br>
-
-<h3> References </h3>
-The following are orienting references. For a complete list of references (with full bibliographic information), please see the seminar program.
-<ul>
-<li>[EG20], Esnault, H.; Gröchenig, M. <a href = "https://arxiv.org/abs/1707.00752">Rigid connections and F-isocrystals.</a>
-<li>[E22], Esnault, H. <a href = "https://page.
-mi.fu-berlin.de/esnault/preprints/helene/147_eilenberg.pdf">Lectures on local systems in algebraic-arithmetic geometry</a>
-<li>[G15], Gröchenig, M. <a href = "https://arxiv.org/abs/1201.0741">Moduli of flat connections in positive characteristic</a>
-<li>[K16], Kedlaya, K. <a href = "https://arxiv.org/abs/1606.01321">Notes on isocrystals</a>. If the crash course on crystals/isocrystals was too succinct, Kedlaya's article is a wonderful resource.
-<li>[LSZ15], Lan, G.; Sheng, M.; Zuo, K. <a href = "https://arxiv.org/abs/1312.0393">Nonabelian Hodge theory in positive characterstic via exponential twisting</a>
-<li>[LSZ21], Lan, G.; Sheng, M.; Zuo, K. <a href = "https://arxiv.org/abs/1311.6424">Semistable Higgs bundles, periodic Higgs bundles and representations of algebraic fundamental groups</a>
-<li>[OV07], Ogus, A.; Vologodsky, V. <a href = "https://arxiv.org/abs/math/0507476">Nonabelian Hodge theory in characteristic p</a>
-<li>[Oss], Osserman, B. <a href = "osserman_connections.pdf">Connections, curvature, and p-curvature</a>. These are notes of Brian Osserman that I found helpful/clarifying, especially for Mochizuki's perspective on p-curvature.
-<li>[Yun19] Hao, Y. <a href = "https://refubium.fu-berlin.de/handle/fub188/25261">A Simpson Correspondence for Abelian Varieties in Positive Characteristic</a>. This is the PhD thesis of Y. Hao, which is a very helpful guide to Gröchenig's perspective on the BNR correspondence.
-</ul>
-
-<!--
-<ul>
-<li><a href="https://doi.org/10.1112/S0010437X22007333">
-Rank 2 local systems and abelian varieties II</a> (with Ambrus Pál)
-
-<ul>Compositio Mathematica, 158:4 (2022), 868-892, arXiv <a href = "https://arxiv.org/abs/2003.07831">2003.07831</a>.  <a id="my_text11" href="javaScript:showHideText11()">[+]</a>
-</ul>
-<ul>
-
-
-<div id="div_text11" class="div_hide">
-<span style="font-size:0.99em">
-
-	Let X/<strong>F</strong><sub>q</sub> be a smooth, geometrically connected, quasi-projective variety. Let <em>E</em> be a semi-simple overconvergent F-isocrystal on X such that for each closed point x of X, the polynomial P<sub>x</sub>(<em>E</em>,t) has coefficients in <strong>Q</strong>. Suppose that each summand has rank 2, determinant Q<sub>p</sub>(-1), and infinite monodromy around infty. We show that <em>E</em> comes from a family of abelian varieties.</p>
-<p> This is in analogy to the celebrated work of Corlette-Simpson on rigid rank 2 local systems on smooth complex varieties. We use as input Drinfeld's first work on the Langlands correspondence for GL<sub>2</sub>, Abe's work on the p-adic Langlands correspondence, the theory of (both l-adic and p-adic) companions, Poonen's Bertini theorem over finite fields, and crucially, the pigeonhole principle! 
-
-
-	</span>
-</div>
-</ul></br>
-</ul>
---!>
-</div>
-
+    <footer class="footer">
+      Last revised July 2026.
+    </footer>
+  </main>
+</body>
 </html>
-
